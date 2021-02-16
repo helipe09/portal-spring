@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<span th:insert="components/head"></span>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+					<!-- End of Page Heading -->
+                    
+                    <!-- Content Row  -->
+                            <!-- Outer Row -->
+        <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    
+                                    <form class="user" th:action="@{alterarPropriaImagemUsuario}" th:method="post" th:object="${usuario}" onsubmit="openModal()">
+                                    <input class="form-control" type="hidden" id="id" name="id" th:value="${usuario.id}">
+                                    <input class="form-control" type="hidden" id="idArquivoImagem" name="idArquivoImagem" th:value="${usuario.idArquivoImagem}">
+                                    <div class="row">
+                                    	<div class="col-lg-1">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Id</label>
+											    <input class="form-control" type="text" th:value="${usuario.id}" disabled="disabled">
+											  </div>
+	                                    </div>
+                                    
+                                    	<div class="col-lg-11">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Nome completo</label>
+											    <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp" th:value="*{nome}" disabled="disabled">
+											  </div>
+	                                    </div>
+                                    
+                                    </div>
+                                    
+                                    <div class="row">
+                                    
+                                    	<div class="col-lg-4">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">E-mail</label>
+											    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" th:value="*{email}" disabled="disabled">
+											  </div>
+	                                    </div>
+	                                    
+                                    	<div class="col-lg-4">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">CPF</label>
+											    <input type="number" class="form-control" id="cpf" name="cpf" aria-describedby="emailHelp" th:value="*{cpf}" disabled="disabled">
+											  </div>
+	                                    </div>
+	                                    
+	                                    <div class="col-lg-4">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Data/Hora Concordância para uso da Imagem no Portal</label>
+<!-- 											    <span class="" th:text="${#dates.format(usuario.tsRegistroConcordanciaUsoImagem, 'dd-MM-yyyy HH:mm')}"></span> -->
+											    <input type="text" class="form-control" id="tsRegistroConcordanciaUsoImagem" name="tsRegistroConcordanciaUsoImagem" aria-describedby="emailHelp" th:value="${#dates.format(usuario.tsRegistroConcordanciaUsoImagem, 'dd-MM-yyyy HH:mm')}" disabled="disabled">
+											  </div>
+	                                    </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <div class="row">
+                                    	<div class="col-lg-12">
+	                                    	<div class="form-group ">
+	                                    	
+	                                    		<div class="alert alert-primary" role="alert">
+												  <label for="exampleInputEmail1">Clique na imagem abaixo para escolher sua foto, recorte-a no local desejado, leia os termos de uso da imagem abaixo e, se de acordo, salve!</label>
+											    <br/>
+											    <p >
+											    		Ao incluir e salvar sua imagem neste Portal, você está concordando em os termos abaixo:	
+											    </p>
+											    
+											    <p>Eu, <span th:text="${usuario.nome}"></span>, <b>AUTORIZO</b> o uso de minha imagem no Portal do Instituto de Saúde e Cidadania - ISAC.</p>
+												</div>
+	                                    	
+	                                    	
+											    
+<!-- 											      <div class="container"> -->
+													<!--     <h1>Upload cropped image to server</h1> -->
+													    <label class="label" data-toggle="tooltip" title="Altere sua imagem clicando aqui!">
+													    	<div th:if="${usuario.idArquivoImagem != null && usuario.idArquivoImagem > 0}">
+													    			<img class="rounded" id="avatar" th:src="${'downloadArquivo?id='+usuario.idArquivoImagem}" alt="avatar" width="160" height="160">
+													    	</div>
+													    	<div th:unless="${usuario.idArquivoImagem != null && usuario.idArquivoImagem > 0}">
+													    			<img class="rounded" id="avatar" src="img/default-profile-picture.png" alt="avatar" width="160" height="160">
+													    	</div>
+<!-- 													      <img class="rounded" id="avatar" src="img/default-profile-picture.png" alt="avatar" width="160" height="160"> -->
+													      <input type="file" class="sr-only" id="input" name="image" accept="image/*">
+													      
+													    </label>
+<!-- 													    <div class="progress"> -->
+<!-- 													      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div> -->
+<!-- 													    </div> -->
+													    <div class="alert" role="alert"></div>
+													    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+													      <div class="modal-dialog" role="document">
+													        <div class="modal-content">
+													          <div class="modal-header">
+													            <h5 class="modal-title" id="modalLabel">Recorte a imagem</h5>
+													            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													              <span aria-hidden="true">&times;</span>
+													            </button>
+													          </div>
+													          <div class="modal-body">
+													            <div class="img-container">
+													              <img id="image" src="img/default-profile-picture.png"><br/>
+													              	<div >
+																		      <p >Ao incluir e salvar sua imagem neste Portal, você está concordando em os termos abaixo:	</p>
+																		      <div class="form-check">
+																			  <input class="form-check-input" type="checkbox" value="" id="concordoTermos">
+																			  <label class="form-check-label" for="defaultCheck1">
+																			     Eu, <span th:text="${usuario.nome}"></span>, <b>AUTORIZO</b> o uso de minha imagem no Portal do Instituto de Saúde e Cidadania - ISAC.
+																			  </label>
+																			</div>
+																		      
+																	</div>
+													            </div>
+													            
+
+													            
+													          </div>
+													          <div class="modal-footer">
+													            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+													            <button type="button" class="btn btn-primary" id="crop">Recortar e Salvar</button>
+													          </div>
+													        </div>
+													      </div>
+													    </div>
+<!-- 													  </div> -->
+											    
+<!-- 											    <input min="6" max="16" type="password" class="form-control" id="senhaNovaRepete" name="senhaNovaRepete" aria-describedby="emailHelp" th:value="*{senhaNovaRepete}"> -->
+<!-- 											    <small id="emailHelp" class="form-text text-muted">Escolha sua foto, recorte no local desejado e salve.</small> -->
+											  </div>
+	                                    </div>
+                                    </div>
+<!-- 									  <button type="submit" class="btn btn-primary btn-user">Submit</button> -->
+									  
+									  <div class="bg-light clearfix">
+<!-- 									  	<button type="submit" class="btn btn-primary float-left"><i class="fas fa-key"></i>&nbsp;Alterar Senha</button> -->
+									  	<a onclick="openModal();" href="dashboard" class="btn btn-primary float-right" title="Retornar ao DashBoard"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar ao DashBoard</a>
+									  </div>
+									  
+									</form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+                    
+                    <!-- End of Content Row -->
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+	
+	<script src="js/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var avatar = document.getElementById('avatar');
+      var image = document.getElementById('image');
+      var input = document.getElementById('input');
+      var $progress = $('.progress');
+      var $progressBar = $('.progress-bar');
+      var $alert = $('.alert');
+      var $modal = $('#modal');
+      //var $modalLoading =  $('#modalLoading');
+      var cropper;
+
+      $('[data-toggle="tooltip"]').tooltip();
+
+      input.addEventListener('change', function (e) {
+        var files = e.target.files;
+        var done = function (url) {
+          input.value = '';
+          image.src = url;
+          $alert.hide();
+          $modal.modal('show');
+        };
+        var reader;
+        var file;
+        var url;
+
+        if (files && files.length > 0) {
+          file = files[0];
+
+          if (URL) {
+            done(URL.createObjectURL(file));
+          } else if (FileReader) {
+            reader = new FileReader();
+            reader.onload = function (e) {
+              done(reader.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      });
+
+      $modal.on('shown.bs.modal', function () {
+        cropper = new Cropper(image, {
+          aspectRatio: 1,
+          viewMode: 3,
+        });
+      }).on('hidden.bs.modal', function () {
+        cropper.destroy();
+        cropper = null;
+      });
+
+      document.getElementById('crop').addEventListener('click', function () {
+    	  var checkConcordo = document.getElementById('concordoTermos');
+    	  //alert(checkConcordo);
+    	  if(checkConcordo.checked){
+    		  //alert('marcado');
+    	  }else{
+    		  alert('Por favor, para continuar você deve concordar com os termos de uso de sua imagem.');
+    		  return false;
+    	  }
+    	  
+    	  
+        var initialAvatarURL;
+        var canvas;
+
+        $modal.modal('hide');
+        
+        //$modalLoading.modal('show');
+        
+        //openModal();
+
+        if (cropper) {
+          canvas = cropper.getCroppedCanvas({
+            width: 160,
+            height: 160,
+          });
+          initialAvatarURL = avatar.src;
+          avatar.src = canvas.toDataURL();
+          $progress.show();
+          $alert.removeClass('alert-success alert-warning');
+          canvas.toBlob(function (blob) {
+            var formData = new FormData();
+
+            formData.append('avatar', blob, 'avatar.jpg');
+            $alert.show().addClass('alert-warning').text('Por favor aguarde enquanto atualizamos sua imagem!');
+            $.ajax('salvarImagemUsuario', {
+              method: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+
+              xhr: function () {
+                var xhr = new XMLHttpRequest();
+
+                xhr.upload.onprogress = function (e) {
+                	
+                  var percent = '0';
+                  var percentage = '0%';
+
+                  if (e.lengthComputable) {
+                    percent = Math.round((e.loaded / e.total) * 100);
+                    percentage = percent + '%';
+                    $progressBar.width(percentage).attr('aria-valuenow', percent).text(percentage);
+                  }
+                };
+
+                return xhr;
+              },
+
+              success: function () {
+            	  //$modalLoading.modal('hide');
+                $alert.show().addClass('alert-success').text('Imagem Salva com sucesso!');
+                window.location.reload(false); 
+                openModal();
+                //location.reload();
+              },
+
+              error: function () {
+            	  //$modalLoading.modal('hide');
+                avatar.src = initialAvatarURL;
+                $alert.show().addClass('alert-warning').text('Desculpe-nos, ocorreu um erro ao tentar recortar e salvar sua imagem.');
+              },
+
+              complete: function () {
+                $progress.hide();
+              },
+            });
+          });
+        }
+      });
+    });
+    
+    //hideModal();
+    
+  </script>
+
+</body>
+
+</html>

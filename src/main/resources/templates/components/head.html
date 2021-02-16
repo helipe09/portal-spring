@@ -1,0 +1,220 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Portal Transparência ISAC</title>
+<link rel="sortcut icon" href="favicon.ico"  />
+<!-- Custom fonts for this template-->
+<link  th:href="@{vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<!-- Custom styles for this page -->
+<link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- Bootstrap Date-Picker Plugin --> 
+<script src="datepicker/jquery-3.3.1.min.js"></script>
+<script src="datepicker/gijgo.min.js" type="text/javascript"></script>
+<link href="datepicker/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="datepicker/jquery.js"></script>
+<script src="datepicker/core.js" type="text/javascript"></script>
+<link href="datepicker/core.css" rel="stylesheet" type="text/css">
+<link href="datepicker/datepicker.css" rel="stylesheet" type="text/css">
+
+<script src="datepicker/datepicker.js"></script>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="//assets.locaweb.com.br/locastyle/edge/stylesheets/locastyle.css"> -->
+
+
+
+<script>
+
+	function setarValor(id)
+	{
+		document.getElementById("id").value = id;
+		document.form1.submit();
+		openModal();
+	}
+	
+	function setarValor2(id)
+	{
+		if(confirm('Deseja realmente excluir este item? Esta operação não poderá ser desfeita.'))
+		{
+			document.getElementById("idExcluir").value = id;
+			document.form2.submit();
+			openModal();
+		}
+	}
+	
+	function setarValor3(id)
+	{
+		document.getElementById("idDetalhar").value = id;
+		document.form3.submit();
+		openModal();
+	}
+	
+	function setarValor4(id, tipo)
+	{
+		document.getElementById("idDetalhar").value = id;
+		document.getElementById("tipo").value = tipo;
+		document.form4.submit();
+		openModal();
+	}
+	
+	function setarValor5(id)
+	{
+		document.getElementById("idDetApont").value = id;
+		document.form5.submit();
+		openModal();
+	}
+	
+	function setarValor6(id)
+	{
+		document.getElementById("idAlterar").value = id;
+		document.form6.submit();
+		openModal();
+	}
+	
+	function setarValor7(id)
+	{
+		document.getElementById("idEtapa").value = id;
+		document.form7.submit();
+		openModal();
+	}
+	
+	function setarValor8(id, tipo)
+	{
+		document.getElementById("idQuesito").value = id;
+		document.getElementById("tipoAcaoQst").value = tipo;
+		document.frmVclQst.submit();
+		openModal();
+	}
+	
+	function setarValor9(id)
+	{
+		document.getElementById("etapaId").value = id;
+		document.form9.submit();
+		openModal();
+	}
+	
+	function setarValor11(el1, el2, idResposta)
+	{
+		var rads =document.getElementById(el1);
+		var selecionado = rads.options[rads.selectedIndex].value;
+		
+		document.getElementById("idResposta").value = idResposta;
+		document.getElementById("valorResposta").value = selecionado;
+		document.getElementById("observacaoResposta").value = document.getElementById(el2).value;
+		
+		if(confirm('Confirma a inclusão das respostas para o quesito?')){
+			document.form11.submit();
+			openModal();
+		}
+	}
+	
+	function setarValor12(id)
+	{
+		document.getElementById("idAtividade").value = id;
+		document.form12.submit();
+	}
+	
+	function setaDadosModal(valor) {
+	    document.getElementById('idExcluir').value = valor;
+	}
+	
+	function setaDadosModalAlterar(id, valor) {
+	    document.getElementById('idArquivo').value = id;
+	    document.getElementById('idNovaSituacao').value = valor;
+	}
+	
+	function submeteAlteracaoArquivo(){
+		var textarea = document.getElementById("justificativaAlteracaoArquivo").value;
+
+	     if(/\S/.test(textarea)) {
+	    	 var tam = textarea.length;
+	    	 if(tam > 1500){
+	    		 alert("O campo de jsutificativa não pode ter mais que 1.500 caracteres. Foram identificados "+tam+" caracteres.");
+	    	 }else{
+	    		 $('#modalAlterarSituacao').modal('hide');
+		    	 document.modalAlterarSituacao.submit();
+		    	 openModal();
+	    	 }
+	     }else{
+	    	 alert("Por favor escreva a justificativa para a alteração de situação do arquivo.");
+	     }
+	}
+	
+	function openModal(){
+	    $('#modalLoading').modal('show');
+	    tempo();
+	    return false;
+	}
+	
+	function hideModal(){
+	    $('#modalLoading').modal('hide');
+	   // tempo();
+	    return false;
+	}
+	
+	function tempo(){
+		var n = 0;
+		var l = document.getElementById("tempo");
+		window.setInterval(function(){
+		  l.innerHTML = n + " segundos";
+		  n++;
+		},1000);
+	}
+	
+	function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewImagem')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+	
+	function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewImagem2')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+	
+</script>
+
+<link rel="stylesheet" href="css/cropper.css">
+  <style>
+    
+
+	.previewImagem{
+	  max-width:180px;
+	}
+	/*input[type=file]
+	{
+	padding:10px;
+	background:#2d2d2d;
+	}*/
+	
+	label {
+  font-weight: bold;
+}
+
+</style>
+
+<!-- <script src="http://code.jquery.com/jquery-1.8.2.js"></script>  -->
+

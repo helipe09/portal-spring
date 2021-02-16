@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <span th:insert="components/head"></span>
+    <style>
+    .intro{
+  background: #ffffff;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+}
+    
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+                    <!-- End of Page Heading -->
+                    
+                            <div class="row">
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+
+<!--                                     <div class="text-center"> -->
+<!--                                         <h1 class="h4 text-gray-900 mb-4">Informações da nova unidade</h1> -->
+<!--                                     </div> -->
+                                    
+                                    <form class="user" th:action="@{salvarNovaUnidade}" th:method="put" th:object="${unidade}" onsubmit="openModal()" enctype="multipart/form-data">
+
+                                    <div class="row">
+                                    	<div class="col-lg-8">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Nome completo da nova Unidade<span>*</span></label>
+											    <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp" th:value="*{nome}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o nome completo da nova unidade.</small>
+											  </div>
+	                                    </div>
+	                                    <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <p><label for="exampleInputEmail1">Contratante<span>*</span></label>
+				                                <select class="form-control" id="idContratante" name="idContratante" th:field="*{idContratante}" required>
+											    	<option th:each="contratante : ${contratantes}" th:value="${contratante.id}" th:utext="${contratante.nome}"/>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o contratante do ISAC para esta Unidade (requer cadastro prévio do Contratante).</small>
+				                             </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+	                                    <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <p>Tipo de Unidade<span>*</span></p>
+				                                <select class="form-control" id="tipoUnidade" name="tipoUnidade" th:field="*{tipoUnidade}" required>
+											    	<option th:each="tipo : ${tipos}" th:value="${tipo.id}" th:utext="${tipo.id +' - '+ tipo.nome}"/>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o tipo de Unidade.</small>
+				                             </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-6">                 
+								              <div class="checkout__input ">
+				                                <p>Tipo Hierárquico<span>*</span></p>
+				                                <select class="form-control" id="tipoHierarquia" name="tipoHierarquia" th:field="*{tipoHierarquia}" required>
+											      <option value="S">S - Principal</option>
+											      <option value="D">D - Departamento ou divisão</option>
+											    </select>
+												<small id="emailHelp" class="form-text text-muted">
+												Informe se esta nova unidade será uma Sede/Matriz ou departamento/divisão de uma outra unidade Sede. 
+												Somente é permitida uma unidade Sede para cada CNPJ.</small>
+				                             </div>
+                                        </div>
+                                        
+                                       <div class="col-lg-2">                 
+								              <div class="checkout__input ">
+				                                <p>Esta unidade trata Covid-19?<span>*</span></p>
+				                                <select class="form-control" id="trataCovid" name="trataCovid" th:field="*{trataCovid}" required>
+												      <option value="2">2 - Não</option>
+												      <option value="1">1 - Sim</option>
+											    </select>
+												<small id="emailHelp" class="form-text text-muted">Informe se esta nova unidade atende a casos de Covid-19.</small>
+				                             </div>
+                                        </div>
+
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                    	<div class="col-lg-6">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">CNPJ<span>*</span></label>
+											    <input type="text" class="form-control" id="cnpj" name="cnpj" aria-describedby="emailHelp" th:value="*{cnpj}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o CNPJ apenas com 14 números (incluindo zeros à esquerda). Não utilize pontos nem traço.</small>
+											    <script type="text/javascript">
+											    	$("#cnpj").mask("00.000.000/0000-00");
+											    </script>
+											  </div>
+										</div>
+										
+										<div class="col-lg-6">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Código CNES<span>*</span></label>
+											    <input type="number" class="form-control" id="codigoCnes" name="codigoCnes" aria-describedby="emailHelp" th:value="*{codigoCnes}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o Código CNES da Unidade, caso exista.</small>
+											  </div>
+	                                    </div>
+	                                    
+									</div>
+									<hr>
+									<div class="row">
+
+										<div class="col-lg-4">
+	                                    	<div class="form-group">
+											    <label for="exampleFormControlSelect1">Endereço<span>*</span></label>
+											    <input type="text" class="form-control" id="endereco" name="endereco" aria-describedby="emailHelp" th:value="*{endereco}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o endereço da unidade. </small>
+											  </div>
+										</div>
+										
+										<div class="col-lg-3">
+	                                    	<div class="form-group">
+											    <label for="exampleFormControlSelect1">Cidade<span>*</span></label>
+											    <input type="text" class="form-control" id="cidade" name="cidade" aria-describedby="emailHelp" th:value="*{cidade}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe a cidade da unidade. </small>
+											  </div>
+										</div>
+										
+										<div class="col-lg-3">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">CEP<span>*</span></label>
+											    <input type="text" class="form-control" id="cep" name="cep" aria-describedby="emailHelp" th:value="*{cep}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o CEP da Unidade.</small>
+											    <script type="text/javascript">
+											    	$("#cep").mask("00.000-000");
+											    </script>
+											  </div>
+										</div>
+										
+										<div class="col-lg-2">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">UF<span>*</span></label>
+											    <select class="form-control" id="uf" name="uf" th:field="*{uf}" required>
+											    	<option th:each="uf : ${ufs}" th:value="${uf.id}" th:utext="${uf.id +' - '+ uf.nome}"/>
+												</select>
+											    <small id="emailHelp" class="form-text text-muted">Informe o Estado onde localizada a Unidade.</small>
+											  </div>
+	                                    </div>
+
+									</div>
+									<hr>
+									<div class="row">
+
+										<div class="col-lg-6">
+	                                    	<div class="form-group">
+											    <label for="exampleFormControlSelect1">Telefone da Unidade<span>*</span></label>
+											    <input type="text" class="form-control" id="telefone" name="telefone" aria-describedby="emailHelp" th:value="*{telefone}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o telefone da unidade. </small>
+											    <script type="text/javascript">
+											    	$("#telefone").mask("(00)00000-0000");
+											    </script>
+											  </div>
+										</div>
+										
+										<div class="col-lg-6">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">E-mail da Unidade<span>*</span></label>
+											    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" th:value="*{email}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o e-mail da Unidade.</small>
+											  </div>
+										</div>
+										
+									</div>
+									<hr>
+									<div class="row">
+                                    	<div class="col-lg-12">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Descrição da Unidade<span>*</span></label>
+											   <textarea class="form-control" id="resumo" name="resumo" rows="7" th:field="*{resumo}" required></textarea>
+											    <small id="emailHelp" class="form-text text-muted">Descreva a unidade e suas principais atribuições.</small>
+											  </div>
+	                                    </div>
+									</div>
+									<hr>
+									<div class="row">  
+										<div class="col-lg-4">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Facebook da Unidade<span>*</span></label>
+												<input type="text" class="form-control" id="email" name="urlFacebook" aria-describedby="emailHelp" th:value="*{urlFacebook}" required>
+												<small id="emailHelp" class="form-text text-muted">Informe o endereço do facebook da unidade.</small>
+											</div>
+										</div>
+										
+										<div class="col-lg-4">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Instragram da Unidade<span>*</span></label>
+												<input type="text" class="form-control" id="email" name="urlInstagram" aria-describedby="emailHelp" th:value="*{urlInstagram}" required>
+												<small id="emailHelp" class="form-text text-muted">Informe o endereço do intagram da unidade.</small>
+											</div>
+										</div>
+										
+										<div class="col-lg-4">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Site da Unidade<span>*</span></label>
+												<input type="text" class="form-control" id="email" name="urlSite" aria-describedby="emailHelp" th:value="*{urlSite}" required>
+												<small id="emailHelp" class="form-text text-muted">Informe o endereço do site da unidade.</small>
+											</div>
+										</div>
+										
+									</div>
+									  <hr>
+									  <div class="row">  
+									  
+									  		<div class="col-lg-6">
+												<div class="checkout__input">
+													<label for="exampleInputEmail1">Imagem da Unidade<span></span></label>
+													<input type="file" class="form-control" id="files" placeholder="Subir arquivo"  name="files" accept="image/*" onchange="readURL(this);" ></input>
+													<small id="emailHelp" class="form-text text-muted">Selecione o arquivo de imagem que representa a Unidade a partir de seu computador.</small>
+												</div>
+											</div>
+											
+											<div class="col-lg-6">
+												<div class="checkout__input">
+													<label for="exampleInputEmail1">Imagem da Unidade<span></span></label><br/>
+													<img id="previewImagem" src="img/unidade.png" alt="Imagem da Unidade aparecerá aqui."  width="180" height="180"/>
+												</div>
+											</div>
+										
+									</div>
+									  <hr>
+									  
+								<div class="row">  
+									  
+									  		<div class="col-lg-6">
+												<div class="checkout__input">
+													<label for="exampleInputEmail1">Organograma da Unidade<span></span></label>
+													<input type="file" class="form-control" id="files2" placeholder="Subir arquivo"  name="files2" accept="image/*" onchange="readURL2(this);" ></input>
+													<small id="emailHelp" class="form-text text-muted">Selecione o arquivo de imagem que representa o organograma da Unidade a partir de seu computador.</small>
+												</div>
+											</div>
+											
+											<div class="col-lg-6">
+												<div class="checkout__input">
+													<label for="exampleInputEmail1">Organograma da Unidade<span>*</span></label><br/>
+													<img id="previewImagem2" src="img/organograma.png" alt="Imagem da Unidade aparecerá aqui."  width="180" height="180"/>
+												</div>
+											</div>
+										
+									</div>
+									  <hr>
+									  
+									  <div class="bg-light clearfix">
+									  	<button type="submit" class="btn btn-primary float-left "><i class="fas fa-save" aria-hidden="true"></i>&nbsp;Salvar Unidade</button>
+									  	<a onclick="openModal();" href="unidades" class="btn btn-primary float-right" title="Listar todos os usuários"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Listar todos as unidades</a>
+									  </div>
+										  <hr>
+										<div class="bg-light clearfix">
+										  	<a onclick="openModal();" href="home" class="btn btn-primary float-right" title="Dashboard"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar ao DashBoard</a>
+										</div>
+									  
+									</form>                                
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>

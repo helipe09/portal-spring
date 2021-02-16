@@ -1,0 +1,102 @@
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span th:text="${userLogado}"></span>, pronto para sair?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+            <p align="center">Clique no botão "Sair" abaixo para finalizar sua sessão no Portal.</p>
+            
+            <p align="center"><img src="img/logo-horizontal.svg" alt="" width="191" height="65" ></p>
+            
+            <p align="center">Até a próxima!</p>
+            
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="sair">Sair</a>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalLoading">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        <center>
+          <h4 class="modal-title">
+            <span th:text="${session.usuario.nome}"></span>, 
+            só um instante...</h4></center>
+      </div>
+      <div class="modal-body">
+<!--       	<ul class="nav justify-content-center" style="background-color: #ffffff;;"> -->
+<!-- 	      	<div class="spinner-border" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!--       	</ul> -->
+      	
+      	
+        <p class="text-primary">
+<!--         	<center><h1 class="text-primary"><i class="far fa-laugh-wink"></i></h1></center><br/>  -->
+        		<center>
+        			<p class="text-primary">Estamos processando sua solicitação.</p> 
+        			<p class="text-primary">Quando concluirmos, a depender da ação acionada, uma mensagem poderá ser exibida.</p>
+        		</center>
+        </p>
+        
+        <!-- <p align="center"><img src="/img/logotipo-integritas.png" alt="" width="191" height="65" ></p> -->
+        
+        <ul class="nav justify-content-center" style="background-color: #ffffff;">
+        
+			<button class="btn btn-primary" type="button" disabled>
+			  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+			  Carregando. Por favor aguarde...
+			</button>
+        
+<!--         	<div class="spinner-grow text-primary" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="spinner-grow text-secondary" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="spinner-grow text-success" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="spinner-grow text-danger" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="spinner-grow text-warning" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="spinner-grow text-info" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="spinner-grow text-dark" role="status"> -->
+<!-- 			  <span class="sr-only">Loading...</span> -->
+<!-- 			</div> -->
+        </ul>
+        
+        <br/>
+        <ul class="nav justify-content-center" style="background-color: #ffffff;">
+        	<div id="tempo"></div>
+        </ul>
+        
+		</div>	
+      </div>
+<!--       <div class="modal-footer"> -->
+<!--         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+<!--         <button type="button" class="btn btn-primary">Save changes</button> -->
+<!--       </div> -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+

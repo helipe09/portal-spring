@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <span th:insert="components/head"></span>
+    <style>
+    .intro{
+  background: #ffffff;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+}
+    
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+                    <!-- End of Page Heading -->
+                    
+                            <div class="row">
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                
+                                <div class="text-center">
+                                    
+                                    <div class="alert alert-primary" role="alert">
+									<h1 class="h3 mb-0 text-gray-800" >Unidades já cadastradas</h1>
+									</div>
+                                    
+                                </div>
+                                
+                               <div class="table-responsive">
+                                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <thead style="background-color: #005aa9;color: white;">
+                                        <tr>
+<!--                                         	<th witdh="15%">#</th> -->
+                                        	<th>Id</th>
+                                            <th>Unidade</th>
+                                            <th>Tipo Hierárquico</th>
+                                            <th>CNPJ</th>
+                                            <th>Endereço</th>
+                                            <th>Estado</th>
+                                            <th>Trata Covid-19?</th>
+                                            <th>Situação</th>
+                                            <th>#</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+	                            		<tr th:each="und : ${unidades}">
+<!-- 	                            			<td  witdh="15%"> -->
+<!-- 	                            				<img th:src="${und.urlLogo}" class="card-img" alt="..." width="80" height="70" style="padding: 5px;border: 1px solid silver;"> -->
+<!-- 	                            			</td> -->
+	                            			<td th:text="${und.id}"></td>
+	                            			<td th:text="${und.nome}"></td>
+	                            			<td >
+	                            				<span th:if="${und.tipoHierarquia == 'S'}">Principal</span>
+    											<span th:unless="${und.tipoHierarquia == 'S'}">Departamento</span>
+	                            			</td>
+	                            			<td th:text="${und.cnpjFormatado}"></td>
+	                            			<td th:text="${und.endereco}"></td>
+                                            <td th:text="${und.uf}"></td>
+                                            
+                                            <td >
+                                            	<span class="badge badge-danger" th:if="${und.trataCovid == 1}" style="font-size: 16px;">Sim
+<!--                                             		<i class="fas fa-virus"></i> Esta Unidade atende Covid-19 <i class="fas fa-head-side-mask"></i> -->
+                                            	</span>
+                                            	<span class="badge badge-secondary" th:if="${und.trataCovid == 2}" style="font-size: 16px;">
+                                            		Não
+                                            	</span>
+                                            </td>
+                                            <td th:text="${und.tipoEstadoAtual.nome}"></td>
+	                            			<td align="right">
+	                            				<a onclick="openModal();" class="btn btn-primary" title="Exibirr informações do usuário" th:href="'detalharUnidade?id='+${und.id}">
+	                            					<i class="fas fa-info" aria-hidden="true"></i> Detalhar
+	                            				</a> &nbsp;
+	                            			</td>
+	                            		</tr>
+	                            	</tbody>	
+                                </table>
+                                    
+                                </div>
+                                
+                                
+                                
+                                
+                                
+<!--                                 <hr>     -->
+<!--                                         <div th:each="und : ${unidades}" class="col-md-6" > -->
+<!--                                         <div class="row no-gutters"> -->
+<!--                                             <div class="col-md-2" valign="middle"> -->
+<!--                                             <img th:src="${und.urlLogo}" class="card-img" alt="..." width="150" height="150" style="padding: 5px;border: 1px solid silver;"> -->
+<!--                                             </div> -->
+<!--                                             <div class="col-md-10"> -->
+<!--                                             <div class="card-body"> -->
+<!--                                                 <h5 class="card-title"  style="font-weight: bold;">Card title</h5> -->
+<!--                                                  <table width="100%"> -->
+<!--                                                         <tbody> -->
+<!--                                                             <tr> -->
+<!--                                                                 <td valign="top" align="left" th:text="${und.id +' - '+und.nome}" style="font-size: 16px;font-weight: bold;"></td> -->
+<!--                                                                 <td valign="top" align="right"> -->
+<!--                                                                     <a th:href="'detalharUnidade?id='+${und.id}" class="btn btn-primary"><i class="fas fa-info"></i> Detalhar</a> -->
+<!-- <!--                                                                     <span>&nbsp;&nbsp;</span>  --> 
+<!-- <!--                                                                     <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i> Alterar </a>   --> 
+<!--                                                                 </td> -->
+<!--                                                             </tr> -->
+<!--                                                         </tbody> -->
+<!--                                                  </table>           -->
+
+<!--                                                     <table width="100%"> -->
+<!--                                                         <tbody> -->
+<!--                                                             <tr> -->
+<!--                                                                 <td width="30%" align="left">CNPJ</td><td th:text="${und.cnpj}" width="70%">CNPJ</td> -->
+<!--                                                             </tr> -->
+<!--                                                             <tr> -->
+<!--                                                                 <td width="30%" align="left">Endereço</td> -->
+<!--                                                                 <td width="70%"> -->
+<!--                                                                     <span th:text="${und.endereco}"></span> - <span th:text="'CEP: '+ ${und.cep}"></span> / <span th:text="${und.uf}"></span> -->
+<!--                                                                 </td> -->
+<!--                                                             </tr> -->
+                                                            
+<!--                                                             <tr> -->
+<!--                                                                 <td width="30%" align="left">CNES</td> -->
+<!--                                                                 <td width="70%"> -->
+<!--                                                                     <span th:text="${und.codigoCnes}"></span> -->
+<!--                                                                 </td> -->
+<!--                                                             </tr> -->
+
+<!--                                                             <tr> -->
+<!--                                                                 <td width="30%" align="left" style="text-align: left;" valign="top">Descrição da Unidade</td> -->
+<!--                                                                 <td width="70%" style="text-align: left;" valign="top"> -->
+<!--                                                                     <span th:text="${und.resumo}"></span> -->
+<!--                                                                 </td> -->
+<!--                                                             </tr> -->
+
+<!--                                                         </tbody> -->
+<!--                                                     </table> -->
+
+
+<!--                                                 </p> -->
+<!--                                                 <p class="card-text " ><small class="text-muted"><span class="badge badge-danger" th:if="${und.trataCovid == 1}" style="font-size: 16px;"><i class="fas fa-virus"></i> Esta Unidade atende Covid-19 <i class="fas fa-head-side-mask"></i></span></small></p> -->
+<!--                                             </div> -->
+<!--                                             </div> -->
+<!--                                         </div> -->
+<!--                                         </div> -->
+
+
+                                    
+
+
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+					
+
+
+
+
+
+
+                  
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>
+
+
+
+

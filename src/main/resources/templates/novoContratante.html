@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<span th:insert="components/head"></span>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+					<!-- End of Page Heading -->
+                    
+                    <!-- Content Row  -->
+                            <!-- Outer Row -->
+        <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Informações do novo contratante</h1>
+                                    </div>
+                                    
+                                    <form class="user" th:action="@{salvarContratante}" th:method="put" th:object="${contratante}" onsubmit="openModal()" enctype="multipart/form-data">
+                                    
+                                    <div class="row">
+                                    	<div class="col-lg-8">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Nome do Contratante</label>
+											    <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp" th:value="*{nome}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o nome do novo contratante.</small>
+											  </div>
+	                                    </div>
+	                                    
+	                                    <div class="col-lg-4">
+	                                    	<div class="form-group">
+											    <label for="exampleFormControlSelect1">Situação do novo contratante</label>
+											    <select class="form-control" id="ativo" th:field="*{ativo}" required>
+											      <option value="S">Ativo</option>
+											      <option value="N">Inativo</option>
+											    </select>
+											    <small id="emailHelp" class="form-text text-muted">Informe a situação do novo contratante. </small>
+											  </div>
+	                                    </div>
+	                                    
+                                    </div>
+                                    
+                                    <div class="row">
+                                    <div class="col-lg-6">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">CNPJ<span>*</span></label>
+											    <input type="text" class="form-control" id="cnpj" name="cnpj" aria-describedby="emailHelp" th:value="*{cnpj}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o CNPJ apenas com 14 números (incluindo zeros à esquerda). Não utilize pontos nem traço.</small>
+											    <script type="text/javascript">
+											    	$("#cnpj").mask("00.000.000/0000-00");
+											    </script>
+											  </div>
+										</div>
+										
+										<div class="col-lg-6">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">UF<span>*</span></label>
+											    <select class="form-control" id="uf" name="uf" th:field="*{uf}" required>
+											    	<option th:each="uf : ${ufs}" th:value="${uf.id}" th:utext="${uf.id +' - '+ uf.nome}"/>
+												</select>
+											    <small id="emailHelp" class="form-text text-muted">Informe o Estado onde localizada a Unidade.</small>
+											  </div>
+	                                    </div>
+                                    
+                                    </div>
+                                    
+                                    <div class="row">  
+										<div class="col-lg-6">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Imagem do Contratante<span>*</span></label>
+												<input type="file" class="form-control" id="files" placeholder="Subir arquivo"  name="files" accept="image/*" onchange="readURL(this);" required></input>
+												<small id="emailHelp" class="form-text text-muted">Selecione o arquivo de imagem que representa o contratante a partir de seu computador.</small>
+											</div>
+										</div>
+										
+										<div class="col-lg-6">
+												<div class="checkout__input">
+													<label for="exampleInputEmail1">Imagem do Contratante<span></span></label><br/>
+													<img id="previewImagem" src="img/unidade.png" alt="Imagem do contrante aparecerá aqui."  width="180" height="180"/>
+												</div>
+											</div>
+										
+										
+									</div>
+									<hr>
+									<div class="row">  
+																		
+										<div class="col-lg-12">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Site do Contratante<span>*</span></label>
+												<input type="text" class="form-control" id="email" name="urlSite" aria-describedby="emailHelp" th:value="*{urlSite}" required>
+												<small id="emailHelp" class="form-text text-muted">Informe o endereço do site do Contratante.</small>
+											</div>
+										</div>
+									</div>
+									
+									
+									
+                                    <hr>
+									  <div class="bg-light clearfix">
+									  	<button type="submit" class="btn btn-primary float-left "><i class="fas fa-save" aria-hidden="true"></i>&nbsp;Salvar Novo Contratante</button>
+									  	<a onclick="openModal();" href="listarContratantes" class="btn btn-primary float-right" title="Listar todos os tipos de documentos"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Listar todos os Contratantes</a>
+									  </div>
+									  <hr>
+									  <div class="bg-light clearfix">
+										  	<a onclick="openModal();" href="home" class="btn btn-primary float-right" title="Dashboard"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar ao DashBoard</a>
+										</div>
+									  
+									</form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+                    <!-- End of Content Row -->
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>

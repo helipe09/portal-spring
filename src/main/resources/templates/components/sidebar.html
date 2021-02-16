@@ -1,0 +1,148 @@
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #005aa9;">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="home" onclick="openModal()">
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="far fa-check-square"></i>
+                </div> -->
+                <img src="img/logo-horizontal-white.svg" width="150rem">
+                <!-- <div class="sidebar-brand-text mx-3">ISAC </div> -->
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="home" onclick="openModal()">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Início</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+<!--             <div class="sidebar-heading"> -->
+<!--                 Cadastro -->
+<!--             </div> -->
+
+                        <li class="nav-item">
+			                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse01"
+			                    aria-expanded="true" aria-controls="collapse4">
+			                    <i class="far fa-handshake"></i>
+			                    <span>Contratantes</span>
+			                </a>
+			                <div id="collapse01" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+			                    <div class="bg-white py-2 collapse-inner rounded">
+			                        <a class="collapse-item" href="novoContratante" onclick="openModal();">Novo contratante</a>
+			                        <a class="collapse-item" href="listarContratantes" onclick="openModal();">Listar contratantes</a>
+			                    </div>
+			                </div>
+			            </li>
+			            
+			            <li class="nav-item">
+			                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse02"
+			                    aria-expanded="true" aria-controls="collapse4">
+			                    <i class="fas fa-hospital-alt"></i>
+			                    <span>Unidades</span>
+			                </a>
+			                <div id="collapse02" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+			                    <div class="bg-white py-2 collapse-inner rounded">
+			                        <a class="collapse-item" href="novaUnidade" onclick="openModal();">Nova unidade</a>
+			                        <a class="collapse-item" href="unidades" onclick="openModal();">Listar Unidades</a>
+			                    </div>
+			                </div>
+			            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse03"
+                    aria-expanded="true" aria-controls="collapse4">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Usuários</span>
+                </a>
+                <div id="collapse03" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+<!--                         <h6 class="collapse-header">Itens disponíveis:</h6> -->
+                        <a class="collapse-item" href="novoUsuario" onclick="openModal();">Novo usuário</a>
+                        <a class="collapse-item" href="usuarios" onclick="openModal();">Listar todos</a>
+                    </div>
+                </div>
+            </li> 
+            
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse04"
+                    aria-expanded="true" aria-controls="collapse4">
+                    <i class="far fa-file-alt"></i>
+                    <span>Documentos</span>
+                </a>
+                <div id="collapse04" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+<!--                         <h6 class="collapse-header">Itens disponíveis:</h6> -->
+                        <a class="collapse-item" href="novoDocumento" onclick="openModal();">Novo documento</a>
+                        <a class="collapse-item" href="gerenciadorDocumentos" onclick="openModal();">Repositório</a>
+                        <div th:if="${session.usuario.cnpjUnidade == '14702257000108'}">
+                        <h6 class="collapse-header">Upload:</h6>
+                        <a class="collapse-item" href="abrirIncluirDocsLegado" onclick="openModal();">Docs Portal Antigo</a>
+                        </div>
+                    </div>
+                </div>
+            </li> 
+            
+            <div th:if="${session.usuario.cnpjUnidade == '14702257000108' && session.usuario.idFuncaoAtual == 7}">
+	            <!-- Divider -->
+	            <hr class="sidebar-divider d-none d-md-block">
+	            
+	            <li class="nav-item">
+	                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse05"
+	                    aria-expanded="true" aria-controls="collapse5">
+	                    <i class="fas fa-tools"></i>
+	                    <span>Manutenção</span>
+	                </a>
+	                <div id="collapse05" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+	                    <div class="bg-white py-2 collapse-inner rounded">
+	                    	<h6 class="collapse-header">Tipos de Unidades</h6>
+	                        <a class="collapse-item" href="novoTipoUnidade" onclick="openModal();">Novo tipo</a>
+	                        <a class="collapse-item" href="listarTiposUnidades" onclick="openModal();">Listar tipos</a>
+	                        <h6 class="collapse-header">Grupos de Documentos</h6>
+	                        <a class="collapse-item" href="novoGrupoTipoDocumento" onclick="openModal();">Novo grupo</a>
+	                        <a class="collapse-item" href="listarGruposTiposDocumentos" onclick="openModal();">Listar grupos</a>
+	                        <h6 class="collapse-header">Tipos de Documentos</h6>
+	                        <a class="collapse-item" href="novoTipoDocumento" onclick="openModal();">Novo tipo</a>
+	                        <a class="collapse-item" href="listarTiposDocumentos" onclick="openModal();">Listar tipos</a>
+	                        <h6 class="collapse-header">Log</h6>
+	                        <a class="collapse-item" href="listarLogs" onclick="openModal();">Logs do Sistema</a>
+	                    </div>
+	                </div>
+	            </li> 
+            </div>
+            
+            
+            <!-- Divider -->
+<!--             <hr class="sidebar-divider d-none d-md-block"> -->
+            
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse06"
+                    aria-expanded="true" aria-controls="collapse6">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Sites ISAC</span>
+                </a>
+                <div id="collapse06" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="https://isac.org.br" target="_blank">ISAC.ORG.BR</a>
+                        <a class="collapse-item" href="https://transparencia.isac.org.br" target="_blank">Portal de Transparência</a>
+                    </div>
+                </div>
+            </li> 
+            
+            
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <span th:insert="components/head"></span>
+    <style>
+    .intro{
+  background: #ffffff;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+}
+    
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+                    <!-- End of Page Heading -->
+                    
+                            <div class="row">
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+
+<!--                                     <div class="text-center"> -->
+<!--                                         <h1 class="h4 text-gray-900 mb-4">Informações do novo usuário</h1> -->
+<!--                                     </div> -->
+                                    
+                                    <form class="user" th:action="@{salvarNovoDocumento}" th:method="post" th:object="${arquivo}" onsubmit="openModal()" enctype="multipart/form-data">
+                                    
+                                    <div class="row">
+                                    	
+                                    	<div class="alert alert-warning col-lg-12" role="alert">
+										  <b>Atenção!</b> O tamanho máximo do arquivo não pode ser superior a 24 MB.
+										</div>
+                                    
+                                    </div>
+                                    
+                                      <div class="row">
+	                                     <div class="col-lg-8">                 
+								              <div class="checkout__input ">
+				                                <label for="exampleInputEmail1">Tipo de Documento (Observe o Grupo, prazo legal de guarda e periodicidade do documento)<span>*</span></label>
+				                                <select class="form-control" id="tipo" name="tipo" th:field="*{tipo}" required>
+											    	<option th:each="tipo : ${tiposArquivos}" th:value="${tipo.id}" th:utext="${tipo.nomeSelect}"/>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o tipo de processo. Considere na escolha a periodicidade e tempo de guarda legal para este tipo de documento.</small>
+				                             </div>
+			                            </div>
+			                            
+			                            <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Visibilidade do documento<span>*</span></label>
+				                                <select class="form-control" id="visibilidade" name="visibilidade" th:field="*{visibilidade}" required>
+											    	<option value="P">Pública (exibição no Portal da Transparência após sua publicação)</option>
+											    	<option value="R">Restrita (exibição na Área Restrita apenas para colaboradores cadastrados no Portal)</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o tipo de visibilidade do documento.</small>
+				                             </div>
+                                        </div>
+                                    
+                                    </div>
+									<hr>
+                                    <div class="row">
+                                    	<div class="col-lg-6">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Nome do Documento</label>
+											    <input type="text" class="form-control" id="nomeExibicao" name="nomeExibicao"  th:value="*{nomeExibicao}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o nome completo do documento para exibição.</small>
+											  </div>
+	                                    </div>
+	                                    
+	                                    <div class="col-lg-6">                 
+								              <div class="checkout__input ">
+				                                <label>Unidade a ser vinculado o documento<span>*</span></label>
+				                                <select class="form-control" id="idUnidade" name="idUnidade" th:field="*{idUnidade}" required>
+											    	<option th:each="unidade : ${unidades}" th:value="${unidade.id}" th:utext="${unidade.id +' - '+ unidade.nome}"/>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe a Unidade a ser vinculado o documento.</small>
+				                             </div>
+                                        </div>
+	                                    
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+	                                    
+                       				<div class="col-md-4">
+					                      <div class="checkout__input">
+					                        <label for="date">Data de protocolo do documento (ou data do documento)<span>*</span></label>
+						        			<input class="form-control" id="dataProtocoloFormatada" name="dataProtocoloFormatada" placeholder="DD/MM/AAAA" type="text" th:field="*{dataProtocoloFormatada}" required/>
+						        			<script>
+										        $('#dataProtocoloFormatada').datepicker({locale: 'pt-br',format: 'dd/mm/yyyy',size: 'small',header: true, modal: false, footer: false,showRightIcon: false});//locale: 'pt-br',format: 'mm/dd/yyyy',
+										    </script>
+										    <small id="emailHelp" class="form-text text-muted">Informe a data de protocolo do documento (ou data do documento).</small>
+					                      </div>
+				                    </div>
+				                    
+				                    <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Mês de referência do documento<span>*</span></label>
+				                                <select class="form-control" id="mesReferencia" name="mesReferencia" th:field="*{mesReferencia}" required>
+											    	<option value="1">Janeiro</option>
+											    	<option value="2">Fevereiro</option>
+											    	<option value="3">Março</option>
+											    	<option value="4">Abril</option>
+											    	<option value="5">Maio</option>
+											    	<option value="6">Junho</option>
+											    	<option value="7">Julho</option>
+											    	<option value="8">Agosto</option>
+											    	<option value="9">Setembro</option>
+											    	<option value="10">Outubro</option>
+											    	<option value="11">Novembro</option>
+											    	<option value="12">Dezembro</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o mês de referência deste documento.</small>
+				                             </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Ano de referência do documento<span>*</span></label>
+				                                <select class="form-control" id="anoReferencia" name="anoReferencia" th:field="*{anoReferencia}" required>
+											    	<option value="2019">2019</option>
+											    	<option value="2020">2020</option>
+											    	<option value="2021">2021</option>
+											    	<option value="2022">2022</option>
+											    	<option value="2023">2023</option>
+											    	<option value="2024">2024</option>
+											    	<option value="2025">2025</option>
+											    	<option value="2026">2026</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o ano de referência deste documento.</small>
+				                             </div>
+                                        </div>
+				                    
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                    	
+                                    	<div class="alert alert-warning col-lg-12" role="alert">
+										  <b>Atenção!</b> O tamanho máximo do arquivo não pode ser superior a 24 MB.
+										</div>
+                                    
+                                    </div>
+                                    <div class="row">
+                                    	<div class="col-lg-12">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Documento</label>
+												<input type="file" class="form-control" id="files" placeholder="Submeter o documento"  name="files" required></input>
+												<small id="emailHelp" class="form-text text-muted">Selecione o documento a ser submetido para avaliação, a partir de seu computador.</small>
+											</div>
+										</div>
+                                    
+                                    </div>
+                                    <hr>
+                                    
+                                    
+                                   <div class="row">
+                                    	<div class="col-lg-12">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Descrição do documento<span>*</span></label>
+											   <textarea class="form-control" id="descricao" name="descricao" rows="7" th:field="*{descricao}" required></textarea>
+											    <small id="emailHelp" class="form-text text-muted">Descreva informações do documento que ajudem no processo de aprovação.</small>
+											  </div>
+	                                    </div>
+									</div>
+									  <hr>
+									  <div class="bg-light clearfix">
+									  	<button type="submit" class="btn btn-primary float-left "><i class="fas fa-save" aria-hidden="true"></i>&nbsp;Salvar Documento e Iniciar Fluxo de Aprovação</button>
+<!-- 									  	<a onclick="openModal();" href="usuarios" class="btn btn-primary float-right" title="Listar todos os usuários"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Listar todos os usuários</a> -->
+									  </div>
+										  <hr>
+										<div class="bg-light clearfix">
+										  	<a onclick="openModal();" href="home" class="btn btn-primary float-right" title="Dashboard"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar ao DashBoard</a>
+										</div>
+									  
+									</form>                                
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <span th:insert="components/head"></span>
+    <style>
+    .intro{
+  background: #ffffff;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+}
+    
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+                    <!-- End of Page Heading -->
+                    
+                            <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+									  <li class="nav-item" role="presentation">
+									    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#documento" role="tab" aria-controls="home" aria-selected="true"><i class="far fa-file"></i> O documento</a>
+									  </li>
+									  <li class="nav-item" role="presentation">
+									    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#historico" role="tab" aria-controls="contact" aria-selected="false"><i class="fas fa-history"></i> Histórico</a>
+									  </li>
+									</ul>
+									
+									<div class="tab-content" id="myTabContent">
+									  <div class="tab-pane fade show active" id="documento" role="tabpanel" aria-labelledby="home-tab">
+									  
+									  <form class="user" th:action="@{salvarNovoDocumento}" th:method="post" th:object="${arquivo}" onsubmit="openModal()" enctype="multipart/form-data">
+                                    	<br/>
+                                    	<div class="row" >
+		                                    	<div class="col-lg-6">
+			                                    	<div class="form-group ">
+			                                    	 <div class="text-left">
+				                                        <h3 class="h3 text-gray-900 mb-4" th:text="'Identificador: '+ ${arquivo.id}">&nbsp;</h3>
+				                                    </div>
+													  </div>
+			                                    </div>
+		                                    	<div class="col-lg-6">
+			                                    	<div class="form-group ">
+			                                    	 <div class="text-right">
+				                                        <h3 class="h3 text-gray-900 mb-4" th:text="'Situação atual: '+ ${arquivo.nomeEstadoAtual}">&nbsp;</h3>
+				                                    </div>
+													  </div>
+			                                    </div>
+		                                    </div>
+		                                    
+		                                    <div th:if="${arquivo.visibilidade == 'P'}">
+		                                    
+		                                    	<div th:if="${arquivo.idEstadoAtual == 1}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 2);'" class="btn btn-success"><i class="fas fa-play-circle"></i>&nbsp;Submeter para avaliação de Compliance</a>
+													  	<a onclick="openModal();" th:href="'abrirAlterarDocumento?id='+${arquivo.id}" class="btn btn-primary"><i class="fas fa-edit" aria-hidden="true"></i>&nbsp;Alterar Documento</a>
+													  	<a onclick="openModal();"  href="#" data-toggle="modal" data-target="#modalExcluir" th:onclick="'setaDadosModal(' + ${arquivo.id} + ');'" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i>&nbsp;Excluir</a>
+												</div>
+											  </div>
+											  
+											  <div th:if="${arquivo.idEstadoAtual == 2}">
+		                                    
+		                                    	<div th:if="${usuarioSessao.cnpjUnidade == '14702257000108' && usuarioSessao.idFuncaoAtual == 7}">
+		                                    			<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+															  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 7);'" class="btn btn-warning"><i class="fas fa-play-circle"></i>&nbsp;Devolver</a>
+															  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 3);'" class="btn btn-success"><i class="fas fa-play-circle"></i>&nbsp;Documento Conforme</a>
+															  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 4);'" class="btn btn-danger"><i class="fas fa-play-circle"></i>&nbsp;Documento não Conforme</a>
+															  	<a onclick="openModal();" th:href="'abrirAlterarDocumentoCompliance?id='+${arquivo.id}" class="btn btn-primary"><i class="fas fa-edit"></i>&nbsp;Ajustar Documento</a>
+														</div>
+		                                    	</div>
+		                                    	<div th:unless="${usuarioSessao.cnpjUnidade == '14702257000108' && usuarioSessao.idFuncaoAtual == 7}">
+		                                    			<p align="right" style="color: red;"><i class="far fa-frown"></i> Operações disponíveis apenas para usuários da Unidade - Isac Sede e que estejam na Função Compliance	  </p>
+		                                    			<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+															  	<a  class="btn btn-warning disabled" tabindex="-1" role="button" aria-disabled="true" title="Disponível apenas para usuários da Unidade 1 - Isac Sede com a Função Compliance"><i class="fas fa-play-circle" disabled ></i>&nbsp;Devolver documento</a>
+															  	<a  class="btn btn-success disabled" tabindex="-1" role="button" aria-disabled="true" title="Disponível apenas para usuários da Unidade 1 - Isac Sede com a Função Compliance"><i class="fas fa-play-circle" disabled></i>&nbsp;Documento Conforme</a>
+															  	<a  class="btn btn-danger disabled" tabindex="-1" role="button" aria-disabled="true"  title="Disponível apenas para usuários da Unidade 1 - Isac Sede com a Função Compliance"><i class="fas fa-play-circle" disabled></i>&nbsp;Documento não Conforme</a>
+														</div>
+											  </div>
+											  </div>
+											  <div th:if="${arquivo.idEstadoAtual == 3}">
+											  
+											  <div th:if="${usuarioSessao.cnpjUnidade == '14702257000108' || usuarioSessao.idUnidadeAtual == arquivo.idUnidade}">
+											  		<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+											  			<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 5);'" class="btn btn-success"><i class="fas fa-play-circle"></i>&nbsp;Publicar Documento</a>
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 1);'" class="btn btn-primary"><i class="fas fa-play-circle"></i>&nbsp;Colocar em Edição</a>
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 6);'" class="btn btn-secondary"><i class="fas fa-play-circle"></i>&nbsp;Desativar Documento</a>
+													</div>
+											  </div>
+											  
+											   <div th:unless="${usuarioSessao.cnpjUnidade == '14702257000108' || usuarioSessao.idUnidadeAtual == arquivo.idUnidade}">
+											   			<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+												   			<p align="right" style="color: red;"><i class="far fa-frown"></i> Operações disponíveis apenas para usuários da Unidade - Isac Sede </p>
+												  			<a class="btn btn-success disabled" tabindex="-1" role="button" aria-disabled="true" title="Disponível apenas para usuários da Unidade 1 - Isac Sede"><i class="fas fa-play-circle"></i>&nbsp;Publicar Documento</a>
+												  			<a class="btn btn-primary disabled"  tabindex="-1" role="button" aria-disabled="true" title="Disponível apenas para usuários da Unidade 1 - Isac Sede"><i class="fas fa-play-circle"></i>&nbsp;Colocar em Edição</a>
+														  	<a class="btn btn-secondary disabled"  tabindex="-1" role="button" aria-disabled="true" title="Disponível apenas para usuários da Unidade 1 - Isac Sede"><i class="fas fa-play-circle"></i>&nbsp;Desativar Documento</a>
+											   			</div>
+											   			
+											  </div>
+											  </div>	
+											  
+											  <div th:if="${arquivo.idEstadoAtual == 4}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+											  			<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 1);'" class="btn btn-primary"><i class="fas fa-play-circle"></i>&nbsp;Colocar em Edição</a>
+												</div>
+											  </div>		
+											  
+											 <div th:if="${arquivo.idEstadoAtual == 5}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 1);'" class="btn btn-primary"><i class="fas fa-play-circle"></i>&nbsp;Colocar em Edição</a>
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 6);'" class="btn btn-secondary"><i class="fas fa-play-circle"></i>&nbsp;Desativar Documento</a>
+												</div>
+											  </div>			
+											  
+											 <div th:if="${arquivo.idEstadoAtual == 6}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 1);'" class="btn btn-primary"><i class="fas fa-play-circle"></i>&nbsp;Colocar em Edição</a>
+												</div>
+											  </div>		
+											  
+											  <div th:if="${arquivo.idEstadoAtual == 7}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 1);'" class="btn btn-primary"><i class="fas fa-play-circle"></i>&nbsp;Colocar em Edição</a>
+												</div>
+											  </div>												  	
+											  
+		                                    </div>
+		                                    
+		                                    <div th:unless="${arquivo.visibilidade == 'P'}">
+		                                    
+												<div th:if="${arquivo.idEstadoAtual == 1}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+											  			<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 5);'" class="btn btn-success"><i class="fas fa-play-circle"></i>&nbsp;Publicar Documento</a>
+													  	<a onclick="openModal();" th:href="'abrirAlterarDocumento?id='+${arquivo.id}" class="btn btn-primary"><i class="fas fa-edit" aria-hidden="true"></i>&nbsp;Alterar Documento</a>
+													  	<a onclick="openModal();"  href="#" data-toggle="modal" data-target="#modalExcluir" th:onclick="'setaDadosModal(' + ${arquivo.id} + ');'" class="btn btn-danger"><i class="fas fa-trash-alt" aria-hidden="true"></i>&nbsp;Excluir</a>
+												</div>
+											  </div>	
+											  
+											  <div th:if="${arquivo.idEstadoAtual == 5}">
+											  	<div class="btn-group " role="group" aria-label="Basic example" style="float: right;">
+													  	<a href="#" data-toggle="modal" data-target="#modalAlterarSituacao" th:onclick="'setaDadosModalAlterar(' + ${arquivo.id} + ', 6);'" class="btn btn-secondary"><i class="fas fa-play-circle"></i>&nbsp;Desativar Documento</a>
+												</div>
+											  </div>		                                    
+		                                    
+		                                    </div>
+		                                    
+		                                    <div class="bg-light clearfix"></div>
+											<br/>
+		                                    
+									<hr>
+                                    <div class="row">
+                                    	<div class="col-lg-8">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Nome do Documento</label>
+											    <input type="text" class="form-control" id="nomeExibicao" name="nomeExibicao"  th:value="*{nomeExibicao}" disabled="disabled">
+											  </div>
+	                                    </div>
+	                                    <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Visibilidade do documento<span>*</span></label>
+				                                <select class="form-control" id="visibilidade" name="visibilidade" th:field="*{visibilidade}"  disabled="disabled">
+											    	<option value="P">Pública (exibição no Portal da Transparência após sua publicação)</option>
+											    	<option value="R">Restrita (exibição na Área Restrita apenas para colaboradores cadastrados no Portal)</option>
+												</select>
+				                             </div>
+                                        </div>
+	                                    
+                                    </div>
+                                    
+                                    <div class="row">
+	                                     <div class="col-lg-6">                 
+								              <div class="checkout__input ">
+				                                <label for="exampleInputEmail1">Tipo de Documento</label>
+				                                <select class="form-control" id="tipo" name="tipo" th:field="*{tipo}" disabled="disabled">
+											    	<option th:each="tipo : ${tiposArquivos}" th:value="${tipo.id}" th:utext="${tipo.nomeSelect}"/>
+												</select>
+				                             </div>
+			                            </div>
+			                            <div class="col-lg-6">                 
+								              <div class="checkout__input ">
+				                                <label for="exampleInputEmail1">Unidade do documento<span>*</span></label>
+				                                <select class="form-control" id="idUnidade" name="idUnidade" th:field="*{idUnidade}" disabled="disabled">
+											    	<option th:each="unidade : ${unidades}" th:value="${unidade.id}" th:utext="${unidade.id +' - '+ unidade.nome}"/>
+												</select>
+				                             </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+	                                    
+		                            	
+                       				<div class="col-md-4">
+					                      <div class="checkout__input">
+					                        <label for="date">Data de protocolo do documento (ou data do documento)<span>*</span></label>
+						        			<input class="form-control" id="dataProtocoloFormatada" name="dataProtocoloFormatada" placeholder="DD/MM/AAAA" type="text" th:field="*{dataProtocoloFormatada}"  disabled="disabled"/>
+						        			
+					                      </div>
+				                    </div>
+				                    
+				                    <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Mês de referência do documento<span>*</span></label>
+				                                <select class="form-control" id="mesReferencia" name="mesReferencia" th:field="*{mesReferencia}"  disabled="disabled">
+											    	<option value="1">Janeiro</option>
+											    	<option value="2">Fevereiro</option>
+											    	<option value="3">Março</option>
+											    	<option value="4">Abril</option>
+											    	<option value="5">Maio</option>
+											    	<option value="6">Junho</option>
+											    	<option value="7">Julho</option>
+											    	<option value="8">Agosto</option>
+											    	<option value="9">Setembro</option>
+											    	<option value="10">Outubro</option>
+											    	<option value="11">Novembro</option>
+											    	<option value="12">Dezembro</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o mês de referência deste documento.</small>
+				                             </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Ano de referência do documento<span>*</span></label>
+				                                <select class="form-control" id="anoReferencia" name="anoReferencia" th:field="*{anoReferencia}"  disabled="disabled">
+											    	<option value="2019">2019</option>
+											    	<option value="2020">2020</option>
+											    	<option value="2021">2021</option>
+											    	<option value="2022">2022</option>
+											    	<option value="2023">2023</option>
+											    	<option value="2024">2024</option>
+											    	<option value="2025">2025</option>
+											    	<option value="2026">2026</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o ano de referência deste documento.</small>
+				                             </div>
+                                        </div>
+
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                    	<div class="col-lg-12">
+											<div class="checkout__input">
+												<label for="exampleInputEmail1">Acessar o Documento</label>
+												
+												<div class="alert alert-secondary" role="alert">
+												  <a onclick="openModal();" class="btn btn-success btn-block" title="Baixar o documento" th:href="'downloadArquivo?id='+${arquivo.id}"><i class="fas fa-download" aria-hidden="true" target="_blank"></i> <span th:text="${arquivo.nomeExibicao}"></span></a>
+												</div>
+												
+<!-- 												<input type="file" class="form-control" id="files" placeholder="Submeter o documento"  name="files" required></input> -->
+<!-- 												<small id="emailHelp" class="form-text text-muted">Selecione o documento a ser submetido para avaliação, a partir de seu computador.</small> -->
+											</div>
+										</div>
+                                    
+                                    </div>
+                                    <hr>
+                                   <div class="row">
+                                    	<div class="col-lg-12">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Descrição do documento</label>
+											   <textarea class="form-control" id="descricao" name="descricao" rows="7" th:field="*{descricao}" disabled="disabled"></textarea>
+											  </div>
+	                                    </div>
+									</div>
+									  
+									  <div class="bg-light clearfix">
+<!-- 									  	<button type="submit" class="btn btn-primary float-left "><i class="fas fa-save" aria-hidden="true"></i>&nbsp;Salvar Documento e Iniciar Fluxo de Aprovação</button> -->
+<!-- 									  	<a onclick="openModal();" href="usuarios" class="btn btn-primary float-right" title="Listar todos os usuários"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Listar todos os usuários</a> -->
+									  </div>
+										  <hr>
+										
+									  
+									</form>  
+									  
+									  
+									  </div>
+									  
+									  <div class="tab-pane fade" id="historico" role="tabpanel" aria-labelledby="contact-tab">
+									  		<div class="text-center">
+		                                        <h1 class="h4 text-gray-900 mb-4">&nbsp;</h1>
+		                                    </div>
+									  
+									  				<div class="table-responsive">
+						                                <table class="table table-hover" id="dataTable2" width="100%" cellspacing="0">
+						                                    <thead >
+						                                        <tr>
+						                                        	<th>Estado</th>
+						                                        	<th>Data/hora Início</th>
+						                                        	<th>Data/hora Fim</th>
+						                                        	<th>Responsável</th>
+						                                        	<th>Observação</th>
+						                                        </tr>
+						                                    </thead>
+						                                    <tbody>
+							                            		<tr th:each="estado : ${estados}">
+							                            			<td th:text="${estado.nomeEstado}"></td>
+							                            			<td th:text="${#dates.format(estado.tsInicio, 'dd-MM-yyyy HH:mm:ss')}"></td>
+							                            			<td th:text="${#dates.format(estado.tsFim, 'dd-MM-yyyy HH:mm:ss')}"></td>
+							                            			<td th:text="${estado.usuarioGravador.nome}"></td>
+							                            			<td th:text="${estado.observacao}" ></td>
+							                            		</tr>
+							                            	</tbody>
+						                                </table>
+					                               	</div>
+									  
+									  </div>
+									  
+									  </div>
+                                <hr>
+                                    <div class="bg-light clearfix">
+                                    		<a onclick="openModal();" th:href="'detalharUnidade?id='+${codigoUnidade}" class="btn btn-primary float-left" title="Retornar para a Unidade"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar para a Unidade</a>
+										  	<a onclick="openModal();" href="home" class="btn btn-primary float-right" title="Dashboard"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar ao DashBoard</a>
+										</div>
+                              
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+	
+	<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	    	<form class="user" id="modalExcluir" method="get" th:action="@{excluirArquivo}" >
+	            <input type="hidden" name="idExcluir" id="idExcluir">
+	        	<div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title text-danger" id="exampleModalLabel">Deseja realmente excluir este Arquivo?</h5>
+		                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+		                    <span aria-hidden="true">×</span>
+		                </button>
+		            </div>
+		            <div class="modal-body">Um arquivo só pode ser excluído se ele estiver na Primeira vez na Situação Em Edição. Vamos verificar esta condição, ok? <br/>Para prosseguir, clique no botão <span class="text-danger">"Sim, desejo excluir"</span> abaixo para confirmar a exclusão.<br/><br/>
+		             Esta operação não poderá ser desfeita.</div>
+		            <div class="modal-footer">
+		                <button class="btn btn-secondary btn-lg" type="button" data-dismiss="modal">Não</button>
+		                <button class="btn btn-danger" type="submit">Sim, desejo excluir</button>
+		            </div>
+		        </div>
+	        </form>
+	    </div>
+	</div>
+	
+		<div class="modal fade" id="modalAlterarSituacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-xl" role="document">
+	    	<form class="user" id="modalAlterarSituacao" name="modalAlterarSituacao" method="get" th:action="@{alteraSituacaoArquivo}" onsubmit="openModal()" th:object="${formulario}">
+	            <input type="hidden" name="idArquivo" id="idArquivo">
+	            <input type="hidden" name="idNovaSituacao" id="idNovaSituacao">
+	        	<div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title text-success" id="exampleModalLabel">Deseja realmente alterar a situação deste Arquivo?</h5>
+		                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+		                    <span aria-hidden="true">×</span>
+		                </button>
+		            </div>
+		            <div class="modal-body">
+		            
+		            Vamos verificar as regras para atendimento dessa alteração, ok? <br/><br/>
+		            É necessário registrar uma justificativa abaixo.<br/>
+		            Para prosseguir, clique no botão <span class="text-success">"Sim, desejo continuar com a alteração"</span> abaixo para confirmar.<br/><br/>
+		             
+					 <div class="row">
+							<div class="col-lg-12">
+									<div class="form-group ">
+											<label for="exampleInputEmail1">Justifique a alteração da situação do arquivo (máx 1.500 caracteres)</label>
+											<textarea class="form-control" id="justificativaAlteracaoArquivo" name="justificativaAlteracaoArquivo" rows="7" required></textarea>
+									</div>
+							</div>
+					</div>
+					<div th:unless="${#lists.isEmpty(formulario)}">
+					<div th:unless="${#lists.isEmpty(formulario.usuarios)}">
+							<div class="row">
+									<div class="col-lg-12">
+											<div class="form-group ">
+													<label for="exampleInputEmail1">Selecione um ou mais usuários que receberão e-mail informando o resultado da análise.</label>
+													<div class="form-check" th:each="resposta, itemStat : *{usuarios}">
+															  <input class="form-check-input" type="checkbox"  th:name="|usuarios[${itemStat.index}].id|" th:id="|usuarios[${itemStat.index}].id|" th:value="*{usuarios[__${itemStat.index}__].id}">
+															  <label class="form-check-label" for="defaultCheck1" th:text="*{usuarios[__${itemStat.index}__].id+' '+usuarios[__${itemStat.index}__].nome +'('+usuarios[__${itemStat.index}__].email+')'}">
+															    Default checkbox
+															  </label>
+													</div>
+<!-- 													<textarea class="form-control" id="justificativaAlteracaoArquivo" name="justificativaAlteracaoArquivo" rows="7" required></textarea> -->
+											</div>
+									</div>
+							</div>					
+					</div>
+					</div>
+		             
+		             </div>
+		            <div class="modal-footer">
+		                <a onclick="submeteAlteracaoArquivo();" class="btn btn-success btn-lg" type="button">Sim, desejo continuar com a alteração</a>
+		                <button class="btn btn-secondary " type="button" data-dismiss="modal">Não</button>
+		            </div>
+		        </div>
+	        </form>
+	    </div>
+	</div>
+	
+
+</body>
+
+</html>

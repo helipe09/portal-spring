@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<span th:insert="components/head"></span>
+</head>
+
+<body id="page-top">
+
+	 <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+					<!-- End of Page Heading -->
+                    
+                    <!-- Content Row  -->
+                            <!-- Outer Row -->
+			                            
+			        <div class="row">
+			
+			            <div class="col-xl-12 col-lg-12 col-md-12" >
+							<div class="card o-hidden border-0 shadow-lg my-3">
+			                    <div class="card-body p-0">
+			                        <!-- Nested Row within Card Body -->
+			                        
+			                        <div class="row">
+			                        	
+			                            <div class="col-lg-12">
+			                            
+			                                <div class="p-5">
+			                                
+			                                <div class="table-responsive">
+				                                <table class="table table-bordered" width="100%" cellspacing="0">
+				                                    <thead style="background-color: #858796;color: white;">
+				                                        <tr>
+				                                        	<th>Guardar documentos do Antigo Portal da Transparência</th>
+				                                        </tr>
+				                                    </thead>
+				                                </table>
+			                               	</div>
+													
+										  <div class="col-lg-12">                 
+								              <div class="checkout__input ">
+				                                <p style="font-weight: bold;"><br/>Incluir novos documentos</p>
+				                                
+									                <form class="user" method="POST" th:action="@{salvarDocumentosLegado}" enctype="multipart/form-data" id="fileUploadForm" th:object="${arquivo}" onsubmit="openModal()">
+									                
+	                                                    <div class="row">
+                            	
+					                                    	<div class="alert alert-warning" role="alert">
+															  <b>Atenção!</b> O tamanho máximo do arquivo não pode ser superior a 24 MB.
+															</div>
+					                                    
+					                                    </div>
+									                    
+									                    <div class="col-lg-12 col-md-6">
+									                    
+									                    
+                                                          <div class="row">
+						                                     <div class="col-lg-12">                 
+													              <div class="checkout__input ">
+									                                <label for="exampleInputEmail1">Tipo de Documento (Observe o Grupo, prazo legal de guarda e periodicidade do documento)<span>*</span></label>
+									                                <select class="form-control" id="tipo" name="tipo" th:field="*{tipo}" required>
+																    	<option th:each="tipo : ${tipos}" th:value="${tipo.id}" th:utext="${tipo.nome}"/>
+																	</select>
+																	<small id="emailHelp" class="form-text text-muted">Informe o tipo de documento.</small>
+									                             </div>
+								                            </div>
+					                                    
+					                                    </div>
+									                    <hr>
+									                    
+									                        <div class="row">
+						                                    <div class="col-lg-12">                 
+													              <div class="checkout__input ">
+									                                <label>Unidade a ser vinculado o documento<span>*</span></label>
+									                                <select class="form-control" id="idUnidade" name="idUnidade" th:field="*{idUnidade}" required>
+																    	<option th:each="unidade : ${unidades}" th:value="${unidade.id}" th:utext="${unidade.id +' - '+ unidade.nome}"/>
+																	</select>
+																	<small id="emailHelp" class="form-text text-muted">Informe a Unidade a ser vinculado o documento.</small>
+									                             </div>
+					                                        </div>
+					                                    </div>
+									            <hr>        
+									                        <div class="row">  
+											                           
+								                                <div class="col-lg-12">
+								                                    <div class="checkout__input">
+								                                        <p>Selecione os arquivos a partir de seu computador<span>*</span></p>
+								                                        <input type="file" class="form-control" id="files" placeholder="Subir arquivos"  name="files" multiple required></input>
+								                                    </div>
+								                                </div>
+								                                
+								                            </div>
+									                        <br/>
+									                        
+									                        <div class="alert alert-warning" role="alert">
+															 Os arquivos gravados nesta opção serão registrados para o tipo e unidade selecionados, terão como nome de exibição o nome do documento e serão incluídos na situação Publicado.
+															</div>
+									                        
+													          <div class="bg-light clearfix">
+															  	<button type="submit" class="btn btn-primary float-left btn-user"><i class="fas fa-save" aria-hidden="true"></i>&nbsp;Guardar documentos</button>
+															  </div>
+													              
+									                     </div> 
+									                     
+									                     <div class="bg-light clearfix">
+													  	<a onclick="openModal();" href="home" class="btn btn-secondary float-right" title="Retornar à Área Administrativa"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar à Página Inicial</a>
+													  </div>
+									                     
+									                 </form>    
+				                                
+				                             </div>
+		                            	  </div>
+						               <hr>
+<!-- 						                            	 
+												  <br/>
+												  <div class="bg-light clearfix">
+												  	<a href="home" class="btn btn-secondary float-right" title="Retornar à Área Administrativa"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar à Página Inicial</a>
+												  </div>
+												  
+			                                    
+			                                </div>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			
+			            </div>
+			
+			        </div>
+                    <!-- End of Content Row -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>

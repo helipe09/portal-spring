@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<span th:insert="components/head"></span>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+					<!-- End of Page Heading -->
+                    
+                    <!-- Content Row  -->
+                            <!-- Outer Row -->
+        <div class="row">
+
+            <div class="col-xl-12 col-lg-12 col-md-12" >
+				<div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Informações do tipo de documento</h1>
+                                    </div>
+                                    
+                                    <form class="user" th:action="@{alterarTipoDocumento}" th:method="put" th:object="${tipo}" onsubmit="openModal()">
+                                    <input type="hidden" class="form-control" id="id" name="id" aria-describedby="emailHelp" th:value="*{id}" >
+                                    <div class="row">
+                                    
+                                    	<div class="col-lg-2">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Id do Tipo</label>
+											    <input type="text" class="form-control" id="id" name="id" aria-describedby="emailHelp" th:value="*{id}" disabled="disabled">
+											  </div>
+	                                    </div>
+	                                    
+                                    	<div class="col-lg-10">
+	                                    	<div class="form-group ">
+											    <label for="exampleInputEmail1">Título do tipo de documento</label>
+											    <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp" th:value="*{nome}" required>
+											    <small id="emailHelp" class="form-text text-muted">Informe o título do tipo de documento.</small>
+											  </div>
+	                                    </div>
+	                                    
+                                    </div>
+                                    
+                                    <div class="row">
+                                    
+                                    	<div class="col-lg-6">                 
+								              <div class="checkout__input ">
+				                                <label>Grupo ao qual deve ser vinculado este tipo de documento<span>*</span></label>
+				                                <select class="form-control" id="grupo" name="grupo" th:field="*{grupo}" required>
+											    	<option th:each="grupo : ${grupos}" th:value="${grupo.id}" th:utext="${grupo.id +' - '+ grupo.nome}"/>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Informe o Grupo ao qual deve ser vinculado este tipo de documento.</small>
+				                             </div>
+                                        </div>
+	                                    
+	                                    <div class="col-lg-6">
+	                                    	<div class="form-group">
+											    <label for="exampleFormControlSelect1">Situação do novo tipo de documento</label>
+											    <select class="form-control" id="ativo" th:field="*{ativo}" required>
+											      <option value="S">Ativo</option>
+											      <option value="N">Inativo</option>
+											    </select>
+											    <small id="emailHelp" class="form-text text-muted">Informe a situação do novo tipo de documento. </small>
+											  </div>
+	                                    </div>
+	                                    
+                                    </div>
+                                    
+                                   <div class="row">
+                                    	<div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Periodicidade do tipo de documento<span>*</span></label>
+				                                <select class="form-control" id="periodicidade" name="periodicidade" th:field="*{periodicidade}" required>
+											    	<option value="1">1 - Mensal</option>
+											    	<option value="2">2 - Bimestral</option>
+											    	<option value="3">3 - Trimestral</option>
+											    	<option value="4">4 - Semestral</option>
+											    	<option value="5">5 - Anual</option>
+											    	<option value="6">6 - Indeterminada</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Selecione a periodicidade para este tipo de documento.</small>
+				                             </div>
+		                            	</div>
+	                                    
+	                                    <div class="col-lg-4">                 
+								              <div class="checkout__input ">
+				                                <label>Prazo legal de guarda para este tipo de documento<span>*</span></label>
+				                                <select class="form-control" id="prazoGuardaAnos" name="prazoGuardaAnos" th:field="*{prazoGuardaAnos}" required>
+											    	<option value="1"> 1 ano</option>
+											    	<option value="2">2 anos</option>
+											    	<option value="3">3 anos</option>
+											    	<option value="4">4 anos</option>
+											    	<option value="5">5 anos</option>
+											    	<option value="10">10 anos</option>
+											    	<option value="15">15 anos</option>
+											    	<option value="20">20 anos</option>
+											    	<option value="25">25 anos</option>
+											    	<option value="30">30 anos</option>
+											    	<option value="35">35 anos</option>
+											    	<option value="999">Indeterminado</option>
+												</select>
+												<small id="emailHelp" class="form-text text-muted">Selecione o prazo legal de guarda para este tipo de documento.</small>
+				                             </div>
+		                            	</div>
+	                                    
+	                                    <div class="col-lg-4">
+	                                    	<div class="form-group">
+											    <label for="exampleFormControlSelect1">Onde pode ser utilizado?</label>
+											    <select class="form-control" id="localAplicacao" th:field="*{localAplicacao}" required>
+											      <option value="T">Todas as unidades (gestora e parceiras)</option>
+											      <option value="S">Somente na Unidade Sede (ISAC)</option>
+											      <option value="U">Somente nas Unidades Parceiras</option>
+											    </select>
+											    <small id="emailHelp" class="form-text text-muted">Informe onde este tipo de documento poderá ser utilizado ao se cadastrar um novo documento. </small>
+											  </div>
+	                                    </div>
+	                                    
+                                    </div>
+                                    
+									  <div class="bg-light clearfix">
+									  	<button type="submit" class="btn btn-primary float-left "><i class="fas fa-save" aria-hidden="true"></i>&nbsp;Salvar Alterações no Tipo de Documento</button>
+									  	<a onclick="openModal();" href="listarTiposDocumentos" class="btn btn-primary float-right" title="Listar todos os tipos de documentos"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Listar todos os Tipos</a>
+									  </div>
+									  <hr>
+									  <div class="bg-light clearfix">
+										  	<a onclick="openModal();" href="home" class="btn btn-primary float-right" title="Dashboard"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Retornar ao DashBoard</a>
+										</div>
+									  
+									</form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+                    <!-- End of Content Row -->
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>

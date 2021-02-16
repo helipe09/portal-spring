@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <span th:insert="components/head"></span>
+    <style>
+    .intro{
+  background: #ffffff;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+}
+    
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+	
+		<!--         Sidebar -->
+		<span th:insert="components/sidebar"></span>
+		<!--         End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <span th:insert="components/topbar"></span>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <span th:insert="components/pageHeading"></span>
+					<!-- End of Page Heading -->
+					<!-- Page Heading -->
+                    <span th:insert="components/mensagem"></span>
+                    <!-- End of Page Heading -->
+                    
+                    <div class="row">
+
+					            <div class="col-xl-12 col-lg-12 col-md-12" >
+											<div class="card o-hidden border-0 shadow-lg my-0">
+							                    <div class="card-body p-0">
+							                        <!-- Nested Row within Card Body -->
+							                        <div class="row">
+							                            <div class="col-lg-12">
+							                                <div class="p-3">
+							                                    <div class="text-left ">
+																		<p style="font-weight: bold;"><i class="fas fa-eye"></i>&nbsp;Documentos para leitura dos colaboradores do ISAC</p>
+                                										<p><small>Documentos recomendados para leitura pelos colaboradores do ISAC registrados no Portal</small></p>
+							                                    </div>
+							                            </div>
+							                            <div class="p-3">
+							                            <hr>
+												                <div th:if="${#lists.isEmpty(listaPublicadosRestrito)}">
+															  		<div class="row">
+														  				<div class="col-md-12">
+															  				<div class="alert alert-warning" role="alert">
+																			  <p style="font-weight: bold;border-bottom: 1px solid gray;"><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;Documentos para leitura dos colaboradores do ISAC</p>
+																			  <p align="center">No momento não existem documentos prontos para leitura no Portal.</p>
+																			</div>
+														  				</div>
+														  			</div>	
+																</div>
+				  
+															  <div th:unless="${#lists.isEmpty(listaPublicadosRestrito)}">
+															  		<form class="user">
+															  		
+																			  		<div class="alert alert-primary" role="alert" th:each="obj : ${listaPublicadosRestrito}">
+																					  	 <p style="font-weight: bold;border-bottom: 0px solid gray;"><a class="btn btn-light btn-block" title="Clique aqui para acessar o documento" target="_blank" th:href="'downloadArquivo?id='+${obj.id}"><i class="fas fa-download" aria-hidden="true"></i>&nbsp;<span th:text="${obj.nomeExibicao}"></span></a> </p>
+																						  
+																						  <div class="row">
+																							  <div class="col-md-8">
+																							  	<small><i><span th:text="${obj.descricao}"></span></i></small>
+																							  </div>
+																							  
+																							  <div class="col-md-2" style="float: right;">
+																							  	<p align="right"><i class="far fa-arrow-alt-circle-down"></i>&nbsp;<span th:text="${obj.tamanho}"></span> </p>
+																							  </div>
+																							  
+																							  <div class="col-md-2" style="float: right;">
+																							  	<p align="right"><i class="far fa-calendar-alt"></i>&nbsp;<span th:text="${#dates.format(obj.dataProtocolo, 'dd-MM-yyyy')}"></span> </p> 
+																							  </div>
+																						  </div>
+															
+																					</div>
+											                             	</form>				  
+															  </div>							                            
+							                      		</div>      
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+                </div>                       
+                    
+                    <div class="row">
+
+					            <div class="col-xl-6 col-lg-6 col-md-6" >
+											<div class="card o-hidden border-0 shadow-lg my-2">
+							                    <div class="card-body p-0">
+							                        <!-- Nested Row within Card Body -->
+							                        <div class="row">
+							                            <div class="col-lg-12">
+							                                <div class="p-3">
+							                                    <div class="text-left ">
+							                                        <p style="font-weight: bold;"><i class="fas fa-eye"></i>&nbsp;Gestão dos documentos com visibilidade ao Público Externo</p>
+                                									<p><small>Ao serem publicados, ficarão visíveis a qualquer cidadão que acesse o Portal de Transparência</small></p>
+							                                    </div>
+							                            </div>
+							                            <div class="p-3">
+							                            <hr>
+							                            <div class="row">
+							                            		<div class="col-xl-4 col-lg-4col-md-4">
+							                            			<a href="listarDocumentos?idEstado=1&visibilidade=P"  onclick="openModal();" class="btn btn-primary btn-block">
+																	  Em edição <span class="badge badge-light"><span th:text="${arqEdicao}"></span></span>
+																	  <span class="sr-only">unread messages</span>
+																	</a>								                            		
+							                            		
+<!-- 							                            		<div class="alert alert-primary" role="alert" > -->
+<!-- 																	  <a href="listarDocumentos?idEstado=1&visibilidade=P" onclick="openModal();"><i class="fas fa-external-link-alt"></i> Em edição (<span th:text="${arqEdicao}"></span>) </a> -->
+<!-- 																	</div> -->
+							                            		</div>
+							                            		
+							                            		<div class="col-xl-4 col-lg-4col-md-4">
+							                            			
+							                            			<a href="listarDocumentos?idEstado=7&visibilidade=P"  onclick="openModal();" class="btn btn-warning btn-block">
+																	 Devolvidos <span class="badge badge-light"><span th:text="${arqDevolvido}"></span></span>
+																	  <span class="sr-only">unread messages</span>
+																	</a>							                            		
+							                            		
+							                            		
+<!-- 							                            		<div class="alert alert-warning" role="alert"> -->
+<!-- 																  <a href="listarDocumentos?idEstado=7&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Devolvidos (<span th:text="${arqDevolvido}"></span>) </a> -->
+<!-- 																</div> -->
+							                            		</div>
+							                            		
+							                            		<div class="col-xl-4 col-lg-4col-md-4">
+							                            		
+							                            			<a href="listarDocumentos?idEstado=6&visibilidade=P"  onclick="openModal();" class="btn btn-secondary btn-block">
+																	 Desativados <span class="badge badge-light"><span th:text="${arqDesativado}"></span></span>
+																	  <span class="sr-only">unread messages</span>
+																	</a>
+							                            		
+							                            		
+<!-- 							                            		<div class="alert alert-secondary" role="alert"> -->
+<!-- 																 <a href="listarDocumentos?idEstado=6&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Desativados (<span th:text="${arqDesativado}"></span>) </a> -->
+<!-- 																</div> -->
+							                            		</div>
+							                            		
+							                            </div>
+							                            <hr>
+							                            <div class="row">
+							                            		<div class="col-xl-6 col-lg-6 col-md-6">
+							                            		
+										                            <a href="listarDocumentos?idEstado=3&visibilidade=P"  onclick="openModal();" class="btn btn-success btn-block">
+																	 Avaliação conforme <span class="badge badge-light"><span th:text="${arqConforme}"></span></span>
+																	  <span class="sr-only">unread messages</span>
+																	</a>
+																	
+																	<a href="listarDocumentos?idEstado=4&visibilidade=P"  onclick="openModal();" class="btn btn-danger btn-block">
+																	  Avaliação não conforme <span class="badge badge-light"><span th:text="${arqNaoConforme}"></span></span>
+																	  <span class="sr-only">unread messages</span>
+																	</a>
+							                            		
+<!-- 																<div class="alert alert-success" role="alert"> -->
+<!-- 																  <a href="listarDocumentos?idEstado=3&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Avaliação conforme (<span th:text="${arqConforme}"></span>) </a> -->
+<!-- 																</div> -->
+<!-- 																<div class="alert alert-danger" role="alert"> -->
+<!-- 																  <a href="listarDocumentos?idEstado=4&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Avaliação não conforme (<span th:text="${arqNaoConforme}"></span>) </a> -->
+<!-- 																</div> -->
+							                            		
+							                            		</div>
+							                            		<div class="col-xl-6 col-lg-6 col-md-6">
+							                            		
+							                            		<a href="listarDocumentos?idEstado=5&visibilidade=P"  onclick="openModal();" class="btn btn-success btn-block">
+																  Publicados <span class="badge badge-light"><span th:text="${arqPublicado}"></span></span>
+																  <span class="sr-only">unread messages</span>
+																</a>
+																
+																<a href="listarDocumentos?idEstado=2&visibilidade=P"  onclick="openModal();" class="btn btn-warning btn-block">
+																  Análise de conformidade <span class="badge badge-light"><span th:text="${arqEmAnalise}"></span></span>
+																  <span class="sr-only">unread messages</span>
+																</a>
+							                            		
+							                            		
+<!-- 							                            		<div class="alert alert-success" role="alert"> -->
+<!-- 																  <a href="listarDocumentos?idEstado=5&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Publicados (<span th:text="${arqPublicado}"></span>) </a> -->
+<!-- 																</div> -->
+<!-- 																<div class="alert alert-warning" role="alert"> -->
+<!-- 																 <a href="listarDocumentos?idEstado=2&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Análise de conformidade (<span th:text="${arqEmAnalise}"></span>) </a> -->
+<!-- 																</div> -->
+							                            		</div>
+							                            </div>
+							                      		</div>      
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        
+					            <div class="col-xl-6 col-lg-6 col-md-6" >
+											<div class="card o-hidden border-0 shadow-lg my-2">
+							                    <div class="card-body p-0">
+							                        <!-- Nested Row within Card Body -->
+							                        <div class="row">
+							                            <div class="col-lg-12">
+							                                <div class="p-3">
+							                                    <div class="text-left ">
+																		<p style="font-weight: bold;"><i class="fas fa-eye"></i>&nbsp;Documentos com visibilidade Restrita ao Portal</p>
+                                										<p><small>Ao serem publicados, ficarão visíveis apenas aos colaboradores do ISAC registrados neste Portal</small></p>
+							                                    </div>
+							                            </div>
+							                            <div class="p-3">
+							                            <hr>
+							                            <a href="listarDocumentos?idEstado=1&visibilidade=R"  onclick="openModal();" class="btn btn-primary btn-block">
+														  Em edição <span class="badge badge-light"><span th:text="${arqEdicaoRestrito}"></span></span>
+														  <span class="sr-only">unread messages</span>
+														</a>
+														<hr>
+														<a href="listarDocumentos?idEstado=5&visibilidade=R"  onclick="openModal();" class="btn btn-success btn-block">
+														  Publicados <span class="badge badge-light"><span th:text="${arqPublicadoRestrito}"></span></span>
+														  <span class="sr-only">unread messages</span>
+														</a>
+														
+														<a href="listarDocumentos?idEstado=6&visibilidade=R"  onclick="openModal();" class="btn btn-secondary btn-block">
+														  Desativados <span class="badge badge-light"><span th:text="${arqDesativadoRestrito}"></span></span>
+														  <span class="sr-only">unread messages</span>
+														</a>
+							                            
+							                            
+<!-- 							                            	<div class="alert alert-primary" role="alert" > -->
+<!-- 															  <a href="listarDocumentos?idEstado=1&visibilidade=R" onclick="openModal();"><i class="fas fa-external-link-alt"></i> Em edição (<span th:text="${arqEdicaoRestrito}"></span>) </a> -->
+<!-- 															</div> -->
+<!-- 															<div class="alert alert-success" role="alert"> -->
+<!-- 															  <a href="listarDocumentos?idEstado=5&visibilidade=R"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Publicados (<span th:text="${arqPublicadoRestrito}"></span>) </a> -->
+<!-- 															</div> -->
+<!-- 															<div class="alert alert-secondary" role="alert"> -->
+<!-- 															 <a href="listarDocumentos?idEstado=6&visibilidade=R"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Desativados (<span th:text="${arqDesativadoRestrito}"></span>) </a> -->
+<!-- 															</div> -->
+							                      		</div>      
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        
+							        
+                </div>
+                
+                    <div class="row">
+
+					            	<div class="col-xl-4 col-lg-4 col-md-4" >
+											<div class="card o-hidden border-0 shadow-lg my-2">
+							                    <div class="card-body p-0">
+							                        <!-- Nested Row within Card Body -->
+							                        <div class="row">
+							                            <div class="col-lg-12">
+							                                <div class="p-3">
+							                                    <div class="text-left ">
+																		<p style="font-weight: bold;"><i class="fas fa-portrait"></i> Validação de Imagens</p>
+                                										<p><small>Imagens de colaboradores pendentes de validação por outro usuário para que possa ser exibida no Portal.</small></p>
+							                                    </div>
+							                            </div>
+							                            <div class="p-3">
+							                            <hr>
+							                            <a href="#"  onclick="openModal();" class="btn btn-warning btn-block">
+														  Pendentes de confirmação <span class="badge badge-light"><span th:text="${imagensPendentes}"></span></span>
+														  <span class="sr-only">unread messages</span>
+														</a>
+							                            
+<!-- 															<div class="alert alert-warning" role="alert"> -->
+<!-- 															  <a href="#"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Pendentes de confirmação (<span th:text="${imagensPendentes}"></span>) </a> -->
+<!-- 															</div> -->
+							                      		</div>      
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        
+					            	<div class="col-xl-4 col-lg-4 col-md-4" >
+											<div class="card o-hidden border-0 shadow-lg my-2">
+							                    <div class="card-body p-0">
+							                        <!-- Nested Row within Card Body -->
+							                        <div class="row">
+							                            <div class="col-lg-12">
+							                                <div class="p-3">
+							                                    <div class="text-left ">
+																		<p style="font-weight: bold;"><i class="fas fa-user-friends"></i> Colaboradores aguardando ativação </p>
+                                										<p><small>Ao serem incluídos, ficarão aguardando sua ativação por outro usuário para permitir o acesso ao Portal</small></p>
+							                                    </div>
+							                            </div>
+							                            <div class="p-3">
+							                            <hr>
+							                             <a href="#"  onclick="openModal();" class="btn btn-warning btn-block">
+														  Pendentes de ativação <span class="badge badge-light"><span th:text="${usuariosEdicao}"></span></span>
+														  <span class="sr-only">unread messages</span>
+														</a>
+							                            
+<!-- 															<div class="alert alert-warning" role="alert"> -->
+<!-- 															  <a href="#"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Pendentes de ativação (<span th:text="${usuariosEdicao}"></span>) </a> -->
+<!-- 															</div>							                             -->
+							                      		</div>      
+							                            
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+
+									<div class="col-xl-4 col-lg-4 col-md-4" >
+											<div class="card o-hidden border-0 shadow-lg my-2">
+							                    <div class="card-body p-0">
+							                        <!-- Nested Row within Card Body -->
+							                        <div class="row">
+							                            <div class="col-lg-12">
+							                                <div class="p-3">
+							                                    <div class="text-left ">
+																		<p style="font-weight: bold;"><i class="fas fa-hospital-alt"></i> Unidades aguardando publicação</p>
+                                										<p><small>Unidades em edição aguardando publicação para exibição de suas informações na seção pública do Portal</small></p>
+							                                    </div>
+							                            </div>
+							                            <div class="p-3">
+							                            <hr>
+							                            <a href="#"  onclick="openModal();" class="btn btn-warning btn-block">
+														  Pendentes de publicação <span class="badge badge-light"><span th:text="${unidadesEdicao}"></span></span>
+														  <span class="sr-only">unread messages</span>
+														</a>
+							                            
+							                            
+<!-- 															<div class="alert alert-warning" role="alert"> -->
+<!-- 															  <a href="#"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Pendentes de publicação (<span th:text="${unidadesEdicao}"></span>) </a> -->
+<!-- 															</div>									                             -->
+							                      		</div>      
+							                            
+							                        </div>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>							        
+							        
+							        
+                </div>                
+                    
+<!--                             <div class="row"> -->
+
+<!-- <!--                                 <div class="text-center"> --> 
+<!-- <!--                                 	<h1 class="h4 text-gray-900 mb-4">Documentos do Portal</h1> --> 
+<!-- <!--                                     <img src="img/logo-horizontal.svg" width="250rem" alt="isac-logo" class="d-inline-block align-top logo-isac mt-4 img-fluid"> --> 
+<!-- <!--                                 </div> --> 
+
+<!--             <div class="col-xl-12 col-lg-12 col-md-12" > -->
+<!-- 				<div class="card o-hidden border-0 shadow-lg my-5"> -->
+<!--                     <div class="card-body p-0"> -->
+<!--                         Nested Row within Card Body -->
+                        
+<!-- <!--                                 <div class="text-left p-5" > --> 
+<!-- <!--                                  		<h1 class="h4 text-gray-900 mb-4">Documentos do Portal</h1> --> 
+<!-- <!--                              	</div> --> 
+
+<!-- <div class="row"> -->
+<!-- 	<div class="col-lg-12"> -->
+<!--                <div class="p-3"> -->
+               
+<!--                <ul class="nav nav-tabs" id="myTab" role="tablist"> -->
+<!-- 				  <li class="nav-item" role="presentation"> -->
+<!-- 				    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-book-reader"></i> Documentos Internos</a> -->
+<!-- 				  </li> -->
+<!-- 				  <li class="nav-item" role="presentation"> -->
+<!-- 				    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-tasks"></i> Gestão dos documentos</a> -->
+<!-- 				  </li> -->
+<!-- 				  <li class="nav-item" role="presentation"> -->
+<!-- 				    <a class="nav-link" id="profile2-tab" data-toggle="tab" href="#profile2" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-portrait"></i> Validação de Imagens</a> -->
+<!-- 				  </li> -->
+<!-- 				  <li class="nav-item" role="presentation"> -->
+<!-- 				    <a class="nav-link" id="profile3-tab" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-user-friends"></i> Usuários em edição</a> -->
+<!-- 				  </li> -->
+<!-- 				  <li class="nav-item" role="presentation"> -->
+<!-- 				    <a class="nav-link" id="profile4-tab" data-toggle="tab" href="#profile4" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-hospital-alt"></i> Unidades em edição</a> -->
+<!-- 				  </li> -->
+<!-- 				</ul> -->
+				
+<!-- 				<div class="tab-content" id="myTabContent"> -->
+<!-- 				  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"> -->
+				  
+<!-- 				  <br/> -->
+		                                    
+<!--                 <div th:if="${#lists.isEmpty(listaPublicadosRestrito)}"> -->
+<!-- 			  		<div class="row"> -->
+<!-- 		  				<div class="col-md-12"> -->
+<!-- 			  				<div class="alert alert-warning" role="alert"> -->
+<!-- 							  <p style="font-weight: bold;border-bottom: 1px solid gray;"><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;Documentos restritos aos colaboradores do ISAC</p> -->
+<!-- 							  <p align="center">No momento não existem documentos prontos para acesso nesta área do Portal.</p> -->
+<!-- 							</div> -->
+<!-- 		  				</div> -->
+<!-- 		  			</div>	 -->
+<!-- 				</div> -->
+				  
+<!-- 				  <div th:unless="${#lists.isEmpty(listaPublicadosRestrito)}"> -->
+<!-- 				  		<form class="user"> -->
+				  		
+<!-- 				  		<div class="alert alert-primary" role="alert" th:each="obj : ${listaPublicadosRestrito}"> -->
+<!-- 						  	 <p style="font-weight: bold;border-bottom: 0px solid gray;"><a title="Clique aqui para acessar o documento" target="_blank" th:href="'downloadArquivo?id='+${obj.id}"><i class="fas fa-download" aria-hidden="true"></i>&nbsp;<span th:text="${obj.nomeExibicao}"></span></a> </p> -->
+							  
+<!-- 							  <div class="row"> -->
+<!-- 								  <div class="col-md-8"> -->
+<!-- 								  	<small><span th:text="${obj.descricao}"></span></small> -->
+<!-- 								  </div> -->
+								  
+<!-- 								  <div class="col-md-2"> -->
+<!-- 								  	<i class="far fa-arrow-alt-circle-down"></i>&nbsp;<span th:text="${obj.tamanho}"></span> -->
+<!-- 								  </div> -->
+								  
+<!-- 								  <div class="col-md-2"> -->
+<!-- 								  	<i class="far fa-calendar-alt"></i>&nbsp;<span th:text="${#dates.format(obj.dataProtocolo, 'dd-MM-yyyy')}"></span> -->
+<!-- 								  </div> -->
+<!-- 							  </div> -->
+
+<!-- 						</div> -->
+<!--                              	</form>				   -->
+<!-- 				  </div> -->
+				  
+				  
+				  
+<!-- 				  </div> -->
+<!-- 				  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> -->
+				  
+<!-- 				                          <div class="row"> -->
+                             
+<!--                             <div class="col-lg-6"> -->
+<!--                                 <div class="p-1"> -->
+<!--                                 	<br/> -->
+<!--                                 	<p style="font-weight: bold;"><i class="fas fa-eye"></i>&nbsp;Documentos com visibilidade ao Público Externo</p> -->
+<!--                                 	<p><small>Ao serem publicados, ficarão visíveis a qualquer cidadão que acesse o Portal de Transparência</small></p> -->
+<!-- 									<div class="alert alert-primary" role="alert" > -->
+<!-- 									  <a href="listarDocumentos?idEstado=1&visibilidade=P" onclick="openModal();"><i class="fas fa-external-link-alt"></i> Em edição (<span th:text="${arqEdicao}"></span>) </a> -->
+<!-- 									</div> -->
+<!-- 									<div class="alert alert-secondary" role="alert"> -->
+<!-- 									 <a href="listarDocumentos?idEstado=2&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Em análise de conformidade (<span th:text="${arqEmAnalise}"></span>) </a> -->
+<!-- 									</div> -->
+<!-- 									<div class="alert alert-success" role="alert"> -->
+<!-- 									  <a href="listarDocumentos?idEstado=3&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Com avaliação conforme (<span th:text="${arqConforme}"></span>) </a> -->
+<!-- 									</div> -->
+<!-- 									<div class="alert alert-danger" role="alert"> -->
+<!-- 									  <a href="listarDocumentos?idEstado=4&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Com avaliação não conforme (<span th:text="${arqNaoConforme}"></span>) </a> -->
+<!-- 									</div> -->
+									
+<!-- 									<div class="alert alert-success" role="alert"> -->
+<!-- 									  <a href="listarDocumentos?idEstado=5&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i>Publicados (<span th:text="${arqPublicado}"></span>) </a> -->
+<!-- 									</div> -->
+<!-- 									<div class="alert alert-warning" role="alert"> -->
+<!-- 									  <a href="listarDocumentos?idEstado=7&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Devolvidos (<span th:text="${arqDevolvido}"></span>) </a> -->
+<!-- 									</div> -->
+<!-- 									<div class="alert alert-secondary" role="alert"> -->
+<!-- 									 <a href="listarDocumentos?idEstado=6&visibilidade=P"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Desativados (<span th:text="${arqDesativado}"></span>) </a> -->
+<!-- 									</div> -->
+                                    
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                              <div class="col-lg-6"> -->
+<!--                                 <div class="p-1"> -->
+<!--                                 	<br/> -->
+<!--                                 	<p style="font-weight: bold;"><i class="fas fa-eye"></i>&nbsp;Documentos com visibilidade Restrita ao Portal</p> -->
+<!--                                 	<p><small>Ao serem publicados, ficarão visíveis apenas aos colaboradores do ISAC registrados neste Portal</small></p> -->
+<!--                                 	<div class="alert alert-primary" role="alert" > -->
+<!-- 									  <a href="listarDocumentos?idEstado=1&visibilidade=R" onclick="openModal();"><i class="fas fa-external-link-alt"></i> Em edição (<span th:text="${arqEdicaoRestrito}"></span>) </a> -->
+<!-- 									</div> -->
+									
+<!-- 									<div class="alert alert-success" role="alert"> -->
+<!-- 									  <a href="listarDocumentos?idEstado=5&visibilidade=R"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Publicados (<span th:text="${arqPublicadoRestrito}"></span>) </a> -->
+<!-- 									</div> -->
+									
+<!-- 									<div class="alert alert-secondary" role="alert"> -->
+<!-- 									 <a href="listarDocumentos?idEstado=6&visibilidade=R"  onclick="openModal();"><i class="fas fa-external-link-alt"></i> Desativados (<span th:text="${arqDesativadoRestrito}"></span>) </a> -->
+<!-- 									</div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+				  
+<!-- 				  </div> -->
+				  
+<!-- 				  <div class="tab-pane fade" id="profile2" role="tabpanel" aria-labelledby="profile-tab"> -->
+<!-- 				  	<br/> -->
+<!-- 				  	Validação de fotos dos perfis dos colaboradores (em desenvolvimento) -->
+<!-- 				  </div> -->
+				  
+<!-- 				  <div class="tab-pane fade" id="profile3" role="tabpanel" aria-labelledby="profile-tab"> -->
+<!-- 				  	<br/> -->
+				  	
+<!-- 				  	<div th:if="${#lists.isEmpty(usuariosEdicao)}"> -->
+<!-- 			  		<div class="row"> -->
+<!-- 		  				<div class="col-md-12"> -->
+<!-- 			  				<div class="alert alert-warning" role="alert"> -->
+<!-- 							  <p style="font-weight: bold;border-bottom: 1px solid gray;"><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;Registro de colaboradores aguardando Ativação</p> -->
+<!-- 							  <p align="center">No momento não existem colaboradores aguardando ativação para uso do Portal.</p> -->
+<!-- 							</div> -->
+<!-- 		  				</div> -->
+<!-- 		  			</div>	 -->
+<!-- 				</div> -->
+				
+				
+<!-- 				<div th:unless="${#lists.isEmpty(usuariosEdicao)}">  -->
+<!-- 								  	   <div class="table-responsive"> -->
+<!--                                 <table class="table table-hover" id="dataTable" width="100%" cellspacing="0"> -->
+<!--                                     <thead style="background-color: #005aa9;color: white;"> -->
+<!--                                         <tr> -->
+<!--                                         	<th>Id</th> -->
+<!--                                             <th>Nome</th> -->
+<!--                                             <th>CPF</th> -->
+<!--                                             <th>E-mail</th> -->
+<!-- <!--                                             <th>Função</th> --> 
+<!-- <!--                                             <th>Unidade</th> --> 
+<!-- <!--                                             <th>Situação</th> --> 
+<!--                                             <th>#</th> -->
+<!--                                         </tr> -->
+<!--                                     </thead> -->
+
+<!--                                     <tbody> -->
+<!-- 	                            		<tr th:each="usu : ${usuariosEdicao}"> -->
+<!-- 	                            			<td th:text="${usu.id}"></td> -->
+<!-- 	                            			<td th:text="${usu.nome}"></td> -->
+<!-- 	                            			<td th:text="${usu.cpfFormatado}"></td> -->
+<!-- 	                            			<td th:text="${usu.email}"></td> -->
+<!-- <!--                                             <td th:text="${usu.funcao.nome}"></td> --> 
+<!-- <!--                                             <td th:text="${usu.unidade.nome}"></td> --> 
+<!-- <!--                                             <td th:text="${usu.tipoEstadoAtual.nome}"></td> --> 
+<!-- 	                            			<td align="right"> -->
+<!-- 	                            				<a onclick="openModal();" class="btn btn-primary" title="Exibir informações do usuário" th:href="'detalharUsuario?id='+${usu.id}"> -->
+<!-- 	                            					<i class="fas fa-info" aria-hidden="true"></i> Detalhar -->
+<!-- 	                            				</a> &nbsp; -->
+<!-- 	                            			</td> -->
+<!-- 	                            		</tr> -->
+<!-- 	                            	</tbody>	 -->
+<!--                                 </table> -->
+                                    
+<!--                                 </div> -->
+				
+<!-- 				</div> -->
+				  	
+<!-- 				  </div> -->
+				  
+<!-- 				  	<div class="tab-pane fade" id="profile4" role="tabpanel" aria-labelledby="profile-tab"> -->
+<!-- 				  	<br/> -->
+				  	
+<!-- 				  	<div th:if="${#lists.isEmpty(unidadesEdicao)}"> -->
+<!-- 			  		<div class="row"> -->
+<!-- 		  				<div class="col-md-12"> -->
+<!-- 			  				<div class="alert alert-warning" role="alert"> -->
+<!-- 							  <p style="font-weight: bold;border-bottom: 1px solid gray;"><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;Registro de unidades aguardando Publicação</p> -->
+<!-- 							  <p align="center">No momento não existem unidades aguardando publicação para exibição de documentos no Portal.</p> -->
+<!-- 							</div> -->
+<!-- 		  				</div> -->
+<!-- 		  			</div>	 -->
+<!-- 				</div> -->
+				
+				
+<!-- 				<div th:unless="${#lists.isEmpty(unidadesEdicao)}">  -->
+
+<!--                                <div class="table-responsive"> -->
+<!--                                 <table class="table table-hover" id="dataTable" width="100%" cellspacing="0"> -->
+<!--                                     <thead style="background-color: #005aa9;color: white;"> -->
+<!--                                         <tr> -->
+<!-- <!--                                         	<th witdh="15%">#</th> --> 
+<!--                                         	<th>Id</th> -->
+<!--                                             <th>Unidade</th> -->
+<!--                                             <th>Tipo Hierárquico</th> -->
+<!--                                             <th>CNPJ</th> -->
+<!--                                             <th>Endereço</th> -->
+<!--                                             <th>Estado</th> -->
+<!--                                             <th>Trata Covid-19?</th> -->
+<!--                                             <th>Situação</th> -->
+<!--                                             <th>#</th> -->
+<!--                                         </tr> -->
+<!--                                     </thead> -->
+
+<!--                                     <tbody> -->
+<!-- 	                            		<tr th:each="und : ${unidadesEdicao}"> -->
+<!-- 	                            			<td th:text="${und.id}"></td> -->
+<!-- 	                            			<td th:text="${und.nome}"></td> -->
+<!-- 	                            			<td > -->
+<!-- 	                            				<span th:if="${und.tipoHierarquia == 'S'}">Principal</span> -->
+<!--     											<span th:unless="${und.tipoHierarquia == 'S'}">Departamento</span> -->
+<!-- 	                            			</td> -->
+<!-- 	                            			<td th:text="${und.cnpjFormatado}"></td> -->
+<!-- 	                            			<td th:text="${und.endereco}"></td> -->
+<!--                                             <td th:text="${und.uf}"></td> -->
+                                            
+<!--                                             <td > -->
+<!--                                             	<span class="badge badge-danger" th:if="${und.trataCovid == 1}" style="font-size: 16px;">Sim -->
+<!--                                             	</span> -->
+<!--                                             	<span class="badge badge-secondary" th:if="${und.trataCovid == 2}" style="font-size: 16px;"> -->
+<!--                                             		Não -->
+<!--                                             	</span> -->
+<!--                                             </td> -->
+<!-- <!--                                             <td th:text="${und.tipoEstadoAtual.nome}"></td> --> 
+<!-- 	                            			<td align="right"> -->
+<!-- 	                            				<a onclick="openModal();" class="btn btn-primary" title="Exibir informações da unidade" th:href="'detalharUnidade?id='+${und.id}"> -->
+<!-- 	                            					<i class="fas fa-info" aria-hidden="true"></i> Detalhar -->
+<!-- 	                            				</a> &nbsp; -->
+<!-- 	                            			</td> -->
+<!-- 	                            		</tr> -->
+<!-- 	                            	</tbody>	 -->
+<!--                                 </table> -->
+                                    
+<!--                                 </div> -->
+				
+<!-- 				</div> -->
+				  	
+				  	
+				  	
+				  	
+<!-- 				  </div> -->
+				  
+<!-- 				</div> -->
+               
+               
+<!--                </div> -->
+<!--      </div>                            -->
+
+<!-- </div> -->
+
+
+
+
+
+
+                                
+
+<!--                     </div> -->
+<!--                 </div> -->
+
+<!--             </div> -->
+
+<!--         </div> -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <span th:insert="components/footer"></span>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <span th:insert="components/topButton"></span>
+	<!-- End of Scroll to Top Button-->
+	
+    <!-- Logout Modal-->
+    <span th:insert="components/logoutModal"></span>
+    <!-- End of Logout Modal-->
+    
+    <!--         scripts js -->
+	<span th:insert="components/scripts"></span>
+	<!--         End of scripts js -->
+
+</body>
+
+</html>
